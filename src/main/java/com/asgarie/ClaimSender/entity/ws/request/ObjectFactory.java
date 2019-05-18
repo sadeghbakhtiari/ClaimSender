@@ -6,7 +6,7 @@
 //
 
 
-package ir.demisco.model.entity.request;
+package com.asgarie.ClaimSender.entity.ws.request;
 
 import javax.xml.bind.annotation.XmlRegistry;
 

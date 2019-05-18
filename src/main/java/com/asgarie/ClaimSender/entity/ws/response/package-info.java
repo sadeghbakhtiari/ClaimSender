@@ -6,4 +6,4 @@
 //
 
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://thrita.behdasht.gov.ir/VM", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package ir.demisco.model.entity.response;
+package com.asgarie.ClaimSender.entity.ws.response;
