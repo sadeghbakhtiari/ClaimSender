@@ -1,0 +1,142 @@
+
+package com.asgarie.ClaimSender.entity.ws.behdasht.thrita.vm;
+
+import javax.xml.bind.annotation.*;
+
+
+/**
+ * <p>Java class for DO_DATE complex type.
+ * 
+ * <p>The following schema fragment specifies the expected content contained within this class.
+ * 
+ * <pre>
+ * &lt;complexType name="DO_DATE">
+ *   &lt;complexContent>
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       &lt;sequence>
+ *         &lt;element name="Year" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="Month" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="Day" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *       &lt;/sequence>
+ *       &lt;attribute name="ISOString" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *     &lt;/restriction>
+ *   &lt;/complexContent>
+ * &lt;/complexType>
+ * </pre>
+ * 
+ * 
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "DO_DATE", propOrder = {
+    "year",
+    "month",
+    "day"
+})
+public class DODATE {
+
+    @XmlElement(name = "Year", required = true, type = Integer.class, nillable = true)
+    protected Integer year;
+    @XmlElement(name = "Month", required = true, type = Integer.class, nillable = true)
+    protected Integer month;
+    @XmlElement(name = "Day", required = true, type = Integer.class, nillable = true)
+    protected Integer day;
+    @XmlAttribute(name = "ISOString")
+    protected String isoString;
+
+    /**
+     * Gets the value of the year property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Integer }
+     *     
+     */
+    public Integer getYear() {
+        return year;
+    }
+
+    /**
+     * Sets the value of the year property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Integer }
+     *     
+     */
+    public void setYear(Integer value) {
+        this.year = value;
+    }
+
+    /**
+     * Gets the value of the month property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Integer }
+     *     
+     */
+    public Integer getMonth() {
+        return month;
+    }
+
+    /**
+     * Sets the value of the month property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Integer }
+     *     
+     */
+    public void setMonth(Integer value) {
+        this.month = value;
+    }
+
+    /**
+     * Gets the value of the day property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Integer }
+     *     
+     */
+    public Integer getDay() {
+        return day;
+    }
+
+    /**
+     * Sets the value of the day property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Integer }
+     *     
+     */
+    public void setDay(Integer value) {
+        this.day = value;
+    }
+
+    /**
+     * Gets the value of the isoString property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getISOString() {
+        return isoString;
+    }
+
+    /**
+     * Sets the value of the isoString property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setISOString(String value) {
+        this.isoString = value;
+    }
+
+}

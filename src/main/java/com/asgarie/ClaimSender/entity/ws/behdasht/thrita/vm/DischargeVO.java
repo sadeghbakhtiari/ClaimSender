@@ -1,0 +1,118 @@
+
+package com.asgarie.ClaimSender.entity.ws.behdasht.thrita.vm;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+
+/**
+ * <p>Java class for DischargeVO complex type.
+ * 
+ * <p>The following schema fragment specifies the expected content contained within this class.
+ * 
+ * <pre>
+ * &lt;complexType name="DischargeVO">
+ *   &lt;complexContent>
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       &lt;sequence>
+ *         &lt;element name="DischargeTime" type="{http://thrita.behdasht.gov.ir/VM/}DO_TIME" minOccurs="0"/>
+ *         &lt;element name="DischargeDate" type="{http://thrita.behdasht.gov.ir/VM/}DO_DATE" minOccurs="0"/>
+ *         &lt;element name="ConditionOnDischarge" type="{http://thrita.behdasht.gov.ir/VM/}DO_CODED_TEXT" minOccurs="0"/>
+ *       &lt;/sequence>
+ *     &lt;/restriction>
+ *   &lt;/complexContent>
+ * &lt;/complexType>
+ * </pre>
+ * 
+ * 
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "DischargeVO", propOrder = {
+    "dischargeTime",
+    "dischargeDate",
+    "conditionOnDischarge"
+})
+public class DischargeVO {
+
+    @XmlElement(name = "DischargeTime")
+    protected DOTIME dischargeTime;
+    @XmlElement(name = "DischargeDate")
+    protected DODATE dischargeDate;
+    @XmlElement(name = "ConditionOnDischarge")
+    protected DOCODEDTEXT conditionOnDischarge;
+
+    /**
+     * Gets the value of the dischargeTime property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link DOTIME }
+     *     
+     */
+    public DOTIME getDischargeTime() {
+        return dischargeTime;
+    }
+
+    /**
+     * Sets the value of the dischargeTime property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link DOTIME }
+     *     
+     */
+    public void setDischargeTime(DOTIME value) {
+        this.dischargeTime = value;
+    }
+
+    /**
+     * Gets the value of the dischargeDate property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link DODATE }
+     *     
+     */
+    public DODATE getDischargeDate() {
+        return dischargeDate;
+    }
+
+    /**
+     * Sets the value of the dischargeDate property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link DODATE }
+     *     
+     */
+    public void setDischargeDate(DODATE value) {
+        this.dischargeDate = value;
+    }
+
+    /**
+     * Gets the value of the conditionOnDischarge property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link DOCODEDTEXT }
+     *     
+     */
+    public DOCODEDTEXT getConditionOnDischarge() {
+        return conditionOnDischarge;
+    }
+
+    /**
+     * Sets the value of the conditionOnDischarge property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link DOCODEDTEXT }
+     *     
+     */
+    public void setConditionOnDischarge(DOCODEDTEXT value) {
+        this.conditionOnDischarge = value;
+    }
+
+}
