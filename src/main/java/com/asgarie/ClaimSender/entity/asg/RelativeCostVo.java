@@ -1,10 +1,11 @@
 package com.asgarie.ClaimSender.entity.asg;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "RelativeCostVo")
-public class RelativeCostVo {
+public class RelativeCostVo implements Serializable {
     private int relativeCostFk;
     private String kTypeCode;
     private Float kValue;

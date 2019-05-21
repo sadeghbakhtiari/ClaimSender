@@ -25,7 +25,7 @@ public class HibernateConfiguration {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan(new String[] { "com.asgarie.ClaimSender.entity.asgr" });
+        sessionFactory.setPackagesToScan(new String[] { "com.asgarie.ClaimSender.entity.asg" });
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }

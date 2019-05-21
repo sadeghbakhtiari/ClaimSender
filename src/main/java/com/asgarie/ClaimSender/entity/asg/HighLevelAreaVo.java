@@ -1,10 +1,11 @@
 package com.asgarie.ClaimSender.entity.asg;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "Highlevelareavo")
-public class HighLevelAreaVo {
+public class HighLevelAreaVo implements Serializable {
     private int highLevelAreaVofk;
     private String cityCode;
     private String countryCode;

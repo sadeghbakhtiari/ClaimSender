@@ -1,10 +1,11 @@
 package com.asgarie.ClaimSender.entity.asg;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "PersonInfoVO")
-public class PersonInfoVo {
+public class PersonInfoVo implements Serializable {
     private Integer sepasId;
     private String firstName;
     private String lastName;
