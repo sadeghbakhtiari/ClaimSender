@@ -1,10 +1,8 @@
-package com.asgarie.ClaimSender.entity.asg;
+package com.asgarie.ClaimSender.entity.ask;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "ServiceGroupRowVo")
 public class ServiceGroupRowVo implements Serializable {
     private Integer sepasId;
     private int id;
@@ -20,8 +18,6 @@ public class ServiceGroupRowVo implements Serializable {
     private Double takmiliCost;
     private PatientTransfer patientTransfer;
 
-    @Id
-    @Column(name = "SepasID")
     public Integer getSepasId() {
         return sepasId;
     }
@@ -30,8 +26,6 @@ public class ServiceGroupRowVo implements Serializable {
         this.sepasId = sepasId;
     }
 
-    @Id
-    @Column(name = "ID")
     public int getId() {
         return id;
     }
@@ -40,8 +34,6 @@ public class ServiceGroupRowVo implements Serializable {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "PatientContribution")
     public Double getPatientContribution() {
         return patientContribution;
     }
@@ -50,8 +42,6 @@ public class ServiceGroupRowVo implements Serializable {
         this.patientContribution = patientContribution;
     }
 
-    @Basic
-    @Column(name = "BasicInsuranceContribution")
     public Double getBasicInsuranceContribution() {
         return basicInsuranceContribution;
     }
@@ -60,8 +50,6 @@ public class ServiceGroupRowVo implements Serializable {
         this.basicInsuranceContribution = basicInsuranceContribution;
     }
 
-    @Basic
-    @Column(name = "TotalCharge")
     public Double getTotalCharge() {
         return totalCharge;
     }
@@ -70,8 +58,6 @@ public class ServiceGroupRowVo implements Serializable {
         this.totalCharge = totalCharge;
     }
 
-    @Basic
-    @Column(name = "ServiceType")
     public Float getServiceType() {
         return serviceType;
     }
@@ -80,8 +66,6 @@ public class ServiceGroupRowVo implements Serializable {
         this.serviceType = serviceType;
     }
 
-    @Basic
-    @Column(name = "ServiceCountMagnitude")
     public Double getServiceCountMagnitude() {
         return serviceCountMagnitude;
     }
@@ -90,8 +74,6 @@ public class ServiceGroupRowVo implements Serializable {
         this.serviceCountMagnitude = serviceCountMagnitude;
     }
 
-    @Basic
-    @Column(name = "ServiceCount")
     public String getServiceCount() {
         return serviceCount;
     }
@@ -100,8 +82,6 @@ public class ServiceGroupRowVo implements Serializable {
         this.serviceCount = serviceCount;
     }
 
-    @Basic
-    @Column(name = "ServiceTitle")
     public String getServiceTitle() {
         return serviceTitle;
     }
@@ -110,8 +90,6 @@ public class ServiceGroupRowVo implements Serializable {
         this.serviceTitle = serviceTitle;
     }
 
-    @Basic
-    @Column(name = "T_Cost")
     public Double gettCost() {
         return tCost;
     }
@@ -120,8 +98,6 @@ public class ServiceGroupRowVo implements Serializable {
         this.tCost = tCost;
     }
 
-    @Basic
-    @Column(name = "D_Cost")
     public Double getdCost() {
         return dCost;
     }
@@ -130,8 +106,6 @@ public class ServiceGroupRowVo implements Serializable {
         this.dCost = dCost;
     }
 
-    @Basic
-    @Column(name = "TakmiliCost")
     public Double getTakmiliCost() {
         return takmiliCost;
     }
@@ -140,8 +114,6 @@ public class ServiceGroupRowVo implements Serializable {
         this.takmiliCost = takmiliCost;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "SepasID", referencedColumnName = "SepasID", nullable = false)
     public PatientTransfer getPatientTransfer() {
         return patientTransfer;
     }

@@ -1,10 +1,8 @@
-package com.asgarie.ClaimSender.entity.asg;
+package com.asgarie.ClaimSender.entity.ask;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "BillSummaryVO")
 public class BillSummaryVo implements Serializable {
     private Integer sepasId;
     private Integer hospitalAccreditation;
@@ -22,8 +20,6 @@ public class BillSummaryVo implements Serializable {
     private Double takmiliCost;
     private PatientTransfer patientTransfer;
 
-    @Id
-    @Column(name = "SepasID")
     public Integer getSepasId() {
         return sepasId;
     }
@@ -32,8 +28,6 @@ public class BillSummaryVo implements Serializable {
         this.sepasId = sepasId;
     }
 
-    @Basic
-    @Column(name = "HospitalAccreditation")
     public Integer getHospitalAccreditation() {
         return hospitalAccreditation;
     }
@@ -42,8 +36,6 @@ public class BillSummaryVo implements Serializable {
         this.hospitalAccreditation = hospitalAccreditation;
     }
 
-    @Basic
-    @Column(name = "InsurerCode")
     public String getInsurerCode() {
         return insurerCode;
     }
@@ -52,8 +44,6 @@ public class BillSummaryVo implements Serializable {
         this.insurerCode = insurerCode;
     }
 
-    @Basic
-    @Column(name = "InsuranceBoxCode")
     public String getInsuranceBoxCode() {
         return insuranceBoxCode;
     }
@@ -62,8 +52,6 @@ public class BillSummaryVo implements Serializable {
         this.insuranceBoxCode = insuranceBoxCode;
     }
 
-    @Basic
-    @Column(name = "MedicalRecordTypeCode")
     public String getMedicalRecordTypeCode() {
         return medicalRecordTypeCode;
     }
@@ -72,8 +60,6 @@ public class BillSummaryVo implements Serializable {
         this.medicalRecordTypeCode = medicalRecordTypeCode;
     }
 
-    @Basic
-    @Column(name = "TotalBasicInsuranceContribution")
     public Double getTotalBasicInsuranceContribution() {
         return totalBasicInsuranceContribution;
     }
@@ -82,8 +68,6 @@ public class BillSummaryVo implements Serializable {
         this.totalBasicInsuranceContribution = totalBasicInsuranceContribution;
     }
 
-    @Basic
-    @Column(name = "TotalPatientContribution")
     public Double getTotalPatientContribution() {
         return totalPatientContribution;
     }
@@ -92,8 +76,6 @@ public class BillSummaryVo implements Serializable {
         this.totalPatientContribution = totalPatientContribution;
     }
 
-    @Basic
-    @Column(name = "TotalCharge")
     public Double getTotalCharge() {
         return totalCharge;
     }
@@ -102,9 +84,6 @@ public class BillSummaryVo implements Serializable {
         this.totalCharge = totalCharge;
     }
 
-//    @Basic
-//    @Column(name = "TotalOtherCosts_QuantitiesFK")
-    @Transient
     public Integer getTotalOtherCostsQuantitiesFk() {
         return totalOtherCostsQuantitiesFk;
     }
@@ -113,8 +92,6 @@ public class BillSummaryVo implements Serializable {
         this.totalOtherCostsQuantitiesFk = totalOtherCostsQuantitiesFk;
     }
 
-    @Basic
-    @Column(name = "GlobalPackage")
     public String getGlobalPackage() {
         return globalPackage;
     }
@@ -123,8 +100,6 @@ public class BillSummaryVo implements Serializable {
         this.globalPackage = globalPackage;
     }
 
-    @Basic
-    @Column(name = "D_Cost")
     public Double getdCost() {
         return dCost;
     }
@@ -133,8 +108,6 @@ public class BillSummaryVo implements Serializable {
         this.dCost = dCost;
     }
 
-    @Basic
-    @Column(name = "T_Cost")
     public Double gettCost() {
         return tCost;
     }
@@ -143,8 +116,6 @@ public class BillSummaryVo implements Serializable {
         this.tCost = tCost;
     }
 
-    @Basic
-    @Column(name = "Takhfif")
     public Double getTakhfif() {
         return takhfif;
     }
@@ -153,8 +124,6 @@ public class BillSummaryVo implements Serializable {
         this.takhfif = takhfif;
     }
 
-    @Basic
-    @Column(name = "TakmiliCost")
     public Double getTakmiliCost() {
         return takmiliCost;
     }
@@ -163,8 +132,6 @@ public class BillSummaryVo implements Serializable {
         this.takmiliCost = takmiliCost;
     }
 
-    @OneToOne
-    @JoinColumn(name = "SepasID", referencedColumnName = "SepasID", nullable = false)
     public PatientTransfer getPatientTransfer() {
         return patientTransfer;
     }

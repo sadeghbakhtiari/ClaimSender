@@ -1,18 +1,14 @@
-package com.asgarie.ClaimSender.entity.asg;
+package com.asgarie.ClaimSender.entity.ask;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "RelativeCostVo")
 public class RelativeCostVo implements Serializable {
     private int relativeCostFk;
     private String kTypeCode;
     private Float kValue;
     private Integer sepasId;
 
-    @Id
-    @Column(name = "RelativeCostFK")
     public int getRelativeCostFk() {
         return relativeCostFk;
     }
@@ -21,8 +17,6 @@ public class RelativeCostVo implements Serializable {
         this.relativeCostFk = relativeCostFk;
     }
 
-    @Basic
-    @Column(name = "KTypeCode")
     public String getkTypeCode() {
         return kTypeCode;
     }
@@ -31,8 +25,6 @@ public class RelativeCostVo implements Serializable {
         this.kTypeCode = kTypeCode;
     }
 
-    @Basic
-    @Column(name = "KValue")
     public Float getkValue() {
         return kValue;
     }
@@ -41,8 +33,6 @@ public class RelativeCostVo implements Serializable {
         this.kValue = kValue;
     }
 
-    @Id
-    @Column(name = "SepasID")
     public Integer getSepasId() {
         return sepasId;
     }

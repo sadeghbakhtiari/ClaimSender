@@ -1,10 +1,8 @@
-package com.asgarie.ClaimSender.entity.asg;
+package com.asgarie.ClaimSender.entity.ask;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "QuantitiesVO")
 public class QuantitiesVo implements Serializable {
     private int id;
     private int quantitiesFk;
@@ -12,7 +10,6 @@ public class QuantitiesVo implements Serializable {
     private Double value;
     private Integer sepasId;
 
-    @Id
     public int getId() {
         return id;
     }
@@ -21,8 +18,6 @@ public class QuantitiesVo implements Serializable {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "QuantitiesFK")
     public int getQuantitiesFk() {
         return quantitiesFk;
     }
@@ -31,8 +26,6 @@ public class QuantitiesVo implements Serializable {
         this.quantitiesFk = quantitiesFk;
     }
 
-    @Basic
-    @Column(name = "NameCode")
     public String getNameCode() {
         return nameCode;
     }
@@ -41,8 +34,6 @@ public class QuantitiesVo implements Serializable {
         this.nameCode = nameCode;
     }
 
-    @Basic
-    @Column(name = "Value")
     public Double getValue() {
         return value;
     }
@@ -51,8 +42,6 @@ public class QuantitiesVo implements Serializable {
         this.value = value;
     }
 
-    @Basic
-    @Column(name = "SepasID")
     public Integer getSepasId() {
         return sepasId;
     }

@@ -1,10 +1,8 @@
-package com.asgarie.ClaimSender.entity.asg;
+package com.asgarie.ClaimSender.entity.ask;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "DiagnosisVo")
 public class DiagnosisVo implements Serializable {
     private Integer sepasId;
     private int id;
@@ -21,8 +19,6 @@ public class DiagnosisVo implements Serializable {
     private String statusCode;
     private PatientTransfer patientTransfer;
 
-    @Id
-    @Column(name = "SepasID")
     public Integer getSepasId() {
         return sepasId;
     }
@@ -31,8 +27,6 @@ public class DiagnosisVo implements Serializable {
         this.sepasId = sepasId;
     }
 
-    @Id
-    @Column(name = "ID")
     public int getId() {
         return id;
     }
@@ -41,8 +35,6 @@ public class DiagnosisVo implements Serializable {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "Comment")
     public String getComment() {
         return comment;
     }
@@ -51,8 +43,6 @@ public class DiagnosisVo implements Serializable {
         this.comment = comment;
     }
 
-    @Basic
-    @Column(name = "DiagnosisCode")
     public String getDiagnosisCode() {
         return diagnosisCode;
     }
@@ -61,8 +51,6 @@ public class DiagnosisVo implements Serializable {
         this.diagnosisCode = diagnosisCode;
     }
 
-    @Basic
-    @Column(name = "DiagnosisYear")
     public Integer getDiagnosisYear() {
         return diagnosisYear;
     }
@@ -71,8 +59,6 @@ public class DiagnosisVo implements Serializable {
         this.diagnosisYear = diagnosisYear;
     }
 
-    @Basic
-    @Column(name = "DiagnosisMonth")
     public Integer getDiagnosisMonth() {
         return diagnosisMonth;
     }
@@ -81,8 +67,6 @@ public class DiagnosisVo implements Serializable {
         this.diagnosisMonth = diagnosisMonth;
     }
 
-    @Basic
-    @Column(name = "DiagnosisDay")
     public Integer getDiagnosisDay() {
         return diagnosisDay;
     }
@@ -91,8 +75,6 @@ public class DiagnosisVo implements Serializable {
         this.diagnosisDay = diagnosisDay;
     }
 
-    @Basic
-    @Column(name = "DiagnosisHour")
     public Integer getDiagnosisHour() {
         return diagnosisHour;
     }
@@ -101,8 +83,6 @@ public class DiagnosisVo implements Serializable {
         this.diagnosisHour = diagnosisHour;
     }
 
-    @Basic
-    @Column(name = "DiagnosisMinute")
     public Integer getDiagnosisMinute() {
         return diagnosisMinute;
     }
@@ -111,8 +91,6 @@ public class DiagnosisVo implements Serializable {
         this.diagnosisMinute = diagnosisMinute;
     }
 
-    @Basic
-    @Column(name = "DiagnosisSecond")
     public Integer getDiagnosisSecond() {
         return diagnosisSecond;
     }
@@ -121,8 +99,6 @@ public class DiagnosisVo implements Serializable {
         this.diagnosisSecond = diagnosisSecond;
     }
 
-    @Basic
-    @Column(name = "SeverityValue")
     public Integer getSeverityValue() {
         return severityValue;
     }
@@ -131,8 +107,6 @@ public class DiagnosisVo implements Serializable {
         this.severityValue = severityValue;
     }
 
-    @Basic
-    @Column(name = "SeveritySymbolCode")
     public String getSeveritySymbolCode() {
         return severitySymbolCode;
     }
@@ -141,8 +115,6 @@ public class DiagnosisVo implements Serializable {
         this.severitySymbolCode = severitySymbolCode;
     }
 
-    @Basic
-    @Column(name = "StatusCode")
     public String getStatusCode() {
         return statusCode;
     }
@@ -151,8 +123,6 @@ public class DiagnosisVo implements Serializable {
         this.statusCode = statusCode;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "SepasID", referencedColumnName = "SepasID", nullable = false)
     public PatientTransfer getPatientTransfer() {
         return patientTransfer;
     }

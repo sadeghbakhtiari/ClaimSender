@@ -1,10 +1,8 @@
-package com.asgarie.ClaimSender.entity.asg;
+package com.asgarie.ClaimSender.entity.ask;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "PersonInfoVO")
 public class PersonInfoVo implements Serializable {
     private Integer sepasId;
     private String firstName;
@@ -40,8 +38,6 @@ public class PersonInfoVo implements Serializable {
     private Integer otherIdentifiersFk;
     private PatientTransfer patientTransfer;
 
-    @Id
-    @Column(name = "SepasID")
     public Integer getSepasId() {
         return sepasId;
     }
@@ -50,8 +46,6 @@ public class PersonInfoVo implements Serializable {
         this.sepasId = sepasId;
     }
 
-    @Basic
-    @Column(name = "FirstName")
     public String getFirstName() {
         return firstName;
     }
@@ -60,8 +54,6 @@ public class PersonInfoVo implements Serializable {
         this.firstName = firstName;
     }
 
-    @Basic
-    @Column(name = "LastName")
     public String getLastName() {
         return lastName;
     }
@@ -70,8 +62,6 @@ public class PersonInfoVo implements Serializable {
         this.lastName = lastName;
     }
 
-    @Basic
-    @Column(name = "FullName")
     public String getFullName() {
         return fullName;
     }
@@ -80,8 +70,6 @@ public class PersonInfoVo implements Serializable {
         this.fullName = fullName;
     }
 
-    @Basic
-    @Column(name = "MaritalStatusCode")
     public String getMaritalStatusCode() {
         return maritalStatusCode;
     }
@@ -90,8 +78,6 @@ public class PersonInfoVo implements Serializable {
         this.maritalStatusCode = maritalStatusCode;
     }
 
-    @Basic
-    @Column(name = "NationalityCode")
     public String getNationalityCode() {
         return nationalityCode;
     }
@@ -100,8 +86,6 @@ public class PersonInfoVo implements Serializable {
         this.nationalityCode = nationalityCode;
     }
 
-    @Basic
-    @Column(name = "BirthYear")
     public Integer getBirthYear() {
         return birthYear;
     }
@@ -110,8 +94,6 @@ public class PersonInfoVo implements Serializable {
         this.birthYear = birthYear;
     }
 
-    @Basic
-    @Column(name = "BirthMonth")
     public Integer getBirthMonth() {
         return birthMonth;
     }
@@ -120,8 +102,6 @@ public class PersonInfoVo implements Serializable {
         this.birthMonth = birthMonth;
     }
 
-    @Basic
-    @Column(name = "BirthDay")
     public Integer getBirthDay() {
         return birthDay;
     }
@@ -130,8 +110,6 @@ public class PersonInfoVo implements Serializable {
         this.birthDay = birthDay;
     }
 
-    @Basic
-    @Column(name = "BirthHour")
     public Integer getBirthHour() {
         return birthHour;
     }
@@ -140,8 +118,6 @@ public class PersonInfoVo implements Serializable {
         this.birthHour = birthHour;
     }
 
-    @Basic
-    @Column(name = "BirthMinute")
     public Integer getBirthMinute() {
         return birthMinute;
     }
@@ -150,8 +126,6 @@ public class PersonInfoVo implements Serializable {
         this.birthMinute = birthMinute;
     }
 
-    @Basic
-    @Column(name = "BirthSecond")
     public Integer getBirthSecond() {
         return birthSecond;
     }
@@ -160,8 +134,6 @@ public class PersonInfoVo implements Serializable {
         this.birthSecond = birthSecond;
     }
 
-    @Basic
-    @Column(name = "BirthDateAccuracyCode")
     public String getBirthDateAccuracyCode() {
         return birthDateAccuracyCode;
     }
@@ -170,8 +142,6 @@ public class PersonInfoVo implements Serializable {
         this.birthDateAccuracyCode = birthDateAccuracyCode;
     }
 
-    @Basic
-    @Column(name = "Father_FirstName")
     public String getFatherFirstName() {
         return fatherFirstName;
     }
@@ -180,8 +150,6 @@ public class PersonInfoVo implements Serializable {
         this.fatherFirstName = fatherFirstName;
     }
 
-    @Basic
-    @Column(name = "Father_LastName")
     public String getFatherLastName() {
         return fatherLastName;
     }
@@ -190,8 +158,6 @@ public class PersonInfoVo implements Serializable {
         this.fatherLastName = fatherLastName;
     }
 
-    @Basic
-    @Column(name = "Mother_FirstName")
     public String getMotherFirstName() {
         return motherFirstName;
     }
@@ -200,8 +166,6 @@ public class PersonInfoVo implements Serializable {
         this.motherFirstName = motherFirstName;
     }
 
-    @Basic
-    @Column(name = "Mother_LastName")
     public String getMotherLastName() {
         return motherLastName;
     }
@@ -210,8 +174,6 @@ public class PersonInfoVo implements Serializable {
         this.motherLastName = motherLastName;
     }
 
-    @Basic
-    @Column(name = "FullAddress")
     public String getFullAddress() {
         return fullAddress;
     }
@@ -220,8 +182,6 @@ public class PersonInfoVo implements Serializable {
         this.fullAddress = fullAddress;
     }
 
-    @Basic
-    @Column(name = "IDCardNumber")
     public String getIdCardNumber() {
         return idCardNumber;
     }
@@ -230,8 +190,6 @@ public class PersonInfoVo implements Serializable {
         this.idCardNumber = idCardNumber;
     }
 
-    @Basic
-    @Column(name = "NationalCode")
     public String getNationalCode() {
         return nationalCode;
     }
@@ -240,8 +198,6 @@ public class PersonInfoVo implements Serializable {
         this.nationalCode = nationalCode;
     }
 
-    @Basic
-    @Column(name = "PostalCode")
     public String getPostalCode() {
         return postalCode;
     }
@@ -250,8 +206,6 @@ public class PersonInfoVo implements Serializable {
         this.postalCode = postalCode;
     }
 
-    @Basic
-    @Column(name = "GenderCode")
     public String getGenderCode() {
         return genderCode;
     }
@@ -260,8 +214,6 @@ public class PersonInfoVo implements Serializable {
         this.genderCode = genderCode;
     }
 
-    @Basic
-    @Column(name = "HomeTel")
     public String getHomeTel() {
         return homeTel;
     }
@@ -270,8 +222,6 @@ public class PersonInfoVo implements Serializable {
         this.homeTel = homeTel;
     }
 
-    @Basic
-    @Column(name = "MobileNumber")
     public String getMobileNumber() {
         return mobileNumber;
     }
@@ -280,8 +230,6 @@ public class PersonInfoVo implements Serializable {
         this.mobileNumber = mobileNumber;
     }
 
-    @Basic
-    @Column(name = "EducationLevelCode")
     public String getEducationLevelCode() {
         return educationLevelCode;
     }
@@ -290,8 +238,6 @@ public class PersonInfoVo implements Serializable {
         this.educationLevelCode = educationLevelCode;
     }
 
-    @Basic
-    @Column(name = "JobCode")
     public String getJobCode() {
         return jobCode;
     }
@@ -300,8 +246,6 @@ public class PersonInfoVo implements Serializable {
         this.jobCode = jobCode;
     }
 
-    @Basic
-    @Column(name = "JobDescription")
     public String getJobDescription() {
         return jobDescription;
     }
@@ -310,8 +254,6 @@ public class PersonInfoVo implements Serializable {
         this.jobDescription = jobDescription;
     }
 
-    @Basic
-    @Column(name = "LivingPlaceArea_HighLevelAreaVOFK")
     public Integer getLivingPlaceAreaHighLevelAreaVofk() {
         return livingPlaceAreaHighLevelAreaVofk;
     }
@@ -320,8 +262,6 @@ public class PersonInfoVo implements Serializable {
         this.livingPlaceAreaHighLevelAreaVofk = livingPlaceAreaHighLevelAreaVofk;
     }
 
-    @Basic
-    @Column(name = "BirthPlaceArea_HighLevelAreaVOFK")
     public Integer getBirthPlaceAreaHighLevelAreaVofk() {
         return birthPlaceAreaHighLevelAreaVofk;
     }
@@ -330,8 +270,6 @@ public class PersonInfoVo implements Serializable {
         this.birthPlaceAreaHighLevelAreaVofk = birthPlaceAreaHighLevelAreaVofk;
     }
 
-    @Basic
-    @Column(name = "IDIssuePlaceArea_HighLevelAreaVOFK")
     public Integer getIdIssuePlaceAreaHighLevelAreaVofk() {
         return idIssuePlaceAreaHighLevelAreaVofk;
     }
@@ -340,8 +278,6 @@ public class PersonInfoVo implements Serializable {
         this.idIssuePlaceAreaHighLevelAreaVofk = idIssuePlaceAreaHighLevelAreaVofk;
     }
 
-    @Basic
-    @Column(name = "ReligionCode")
     public String getReligionCode() {
         return religionCode;
     }
@@ -350,8 +286,6 @@ public class PersonInfoVo implements Serializable {
         this.religionCode = religionCode;
     }
 
-    @Basic
-    @Column(name = "OtherIdentifiersFK")
     public Integer getOtherIdentifiersFk() {
         return otherIdentifiersFk;
     }
@@ -360,8 +294,6 @@ public class PersonInfoVo implements Serializable {
         this.otherIdentifiersFk = otherIdentifiersFk;
     }
 
-    @OneToOne
-    @JoinColumn(name = "SepasID", referencedColumnName = "SepasID", nullable = false)
     public PatientTransfer getPatientTransfer() {
         return patientTransfer;
     }

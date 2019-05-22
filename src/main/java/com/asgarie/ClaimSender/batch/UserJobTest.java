@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 //@Component
-public class ClaimJobComponent extends JobExecutionListenerSupport{
+public class UserJobTest extends JobExecutionListenerSupport{
 
     @Autowired
     JobBuilderFactory jobBuilderFactory;
@@ -31,8 +31,8 @@ public class ClaimJobComponent extends JobExecutionListenerSupport{
     @Autowired
     Writer writer;
 
-    @Bean(name = "claimJob")
-    public Job claimJob() {
+    @Bean(name = "userJob")
+    public Job userJob() {
 
         Step step = stepBuilderFactory.get("step-1")
                 .<User, User> chunk(1)
@@ -49,8 +49,6 @@ public class ClaimJobComponent extends JobExecutionListenerSupport{
 
         return job;
     }
-
-
 
     @Override
     public void afterJob(JobExecution jobExecution) {

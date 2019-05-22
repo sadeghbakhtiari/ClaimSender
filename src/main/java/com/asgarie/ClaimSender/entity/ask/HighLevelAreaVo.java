@@ -1,10 +1,8 @@
-package com.asgarie.ClaimSender.entity.asg;
+package com.asgarie.ClaimSender.entity.ask;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "Highlevelareavo")
 public class HighLevelAreaVo implements Serializable {
     private int highLevelAreaVofk;
     private String cityCode;
@@ -16,8 +14,6 @@ public class HighLevelAreaVo implements Serializable {
     private String townCode;
     private String villageCode;
 
-    @Id
-    @Column(name = "HighLevelAreaVOFK")
     public int getHighLevelAreaVofk() {
         return highLevelAreaVofk;
     }
@@ -26,8 +22,6 @@ public class HighLevelAreaVo implements Serializable {
         this.highLevelAreaVofk = highLevelAreaVofk;
     }
 
-    @Basic
-    @Column(name = "CityCode")
     public String getCityCode() {
         return cityCode;
     }
@@ -36,8 +30,6 @@ public class HighLevelAreaVo implements Serializable {
         this.cityCode = cityCode;
     }
 
-    @Basic
-    @Column(name = "CountryCode")
     public String getCountryCode() {
         return countryCode;
     }
@@ -46,8 +38,6 @@ public class HighLevelAreaVo implements Serializable {
         this.countryCode = countryCode;
     }
 
-    @Basic
-    @Column(name = "DistrictCode")
     public String getDistrictCode() {
         return districtCode;
     }
@@ -56,8 +46,6 @@ public class HighLevelAreaVo implements Serializable {
         this.districtCode = districtCode;
     }
 
-    @Basic
-    @Column(name = "NationalAreaCode")
     public String getNationalAreaCode() {
         return nationalAreaCode;
     }
@@ -66,8 +54,6 @@ public class HighLevelAreaVo implements Serializable {
         this.nationalAreaCode = nationalAreaCode;
     }
 
-    @Basic
-    @Column(name = "ProvinceCode")
     public String getProvinceCode() {
         return provinceCode;
     }
@@ -76,8 +62,6 @@ public class HighLevelAreaVo implements Serializable {
         this.provinceCode = provinceCode;
     }
 
-    @Basic
-    @Column(name = "RuralAreaCode")
     public String getRuralAreaCode() {
         return ruralAreaCode;
     }
@@ -86,8 +70,6 @@ public class HighLevelAreaVo implements Serializable {
         this.ruralAreaCode = ruralAreaCode;
     }
 
-    @Basic
-    @Column(name = "TownCode")
     public String getTownCode() {
         return townCode;
     }
@@ -96,8 +78,6 @@ public class HighLevelAreaVo implements Serializable {
         this.townCode = townCode;
     }
 
-    @Basic
-    @Column(name = "VillageCode")
     public String getVillageCode() {
         return villageCode;
     }

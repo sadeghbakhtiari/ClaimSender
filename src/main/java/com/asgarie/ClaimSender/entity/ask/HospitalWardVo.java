@@ -1,10 +1,8 @@
-package com.asgarie.ClaimSender.entity.asg;
+package com.asgarie.ClaimSender.entity.ask;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "HospitalWardVO")
 public class HospitalWardVo implements Serializable {
     private String bed;
     private String name;
@@ -13,8 +11,6 @@ public class HospitalWardVo implements Serializable {
     private Integer sepasId;
     private PatientTransfer patientTransfer;
 
-    @Basic
-    @Column(name = "Bed")
     public String getBed() {
         return bed;
     }
@@ -23,8 +19,6 @@ public class HospitalWardVo implements Serializable {
         this.bed = bed;
     }
 
-    @Basic
-    @Column(name = "Name")
     public String getName() {
         return name;
     }
@@ -33,8 +27,6 @@ public class HospitalWardVo implements Serializable {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "Room")
     public String getRoom() {
         return room;
     }
@@ -43,8 +35,6 @@ public class HospitalWardVo implements Serializable {
         this.room = room;
     }
 
-    @Basic
-    @Column(name = "TypeCode")
     public String getTypeCode() {
         return typeCode;
     }
@@ -53,8 +43,6 @@ public class HospitalWardVo implements Serializable {
         this.typeCode = typeCode;
     }
 
-    @Id
-    @Column(name = "SepasID")
     public Integer getSepasId() {
         return sepasId;
     }
@@ -63,8 +51,6 @@ public class HospitalWardVo implements Serializable {
         this.sepasId = sepasId;
     }
 
-    @OneToOne
-    @JoinColumn(name = "SepasID", referencedColumnName = "SepasID", nullable = false)
     public PatientTransfer getPatientTransfer() {
         return patientTransfer;
     }

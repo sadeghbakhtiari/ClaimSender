@@ -1,10 +1,8 @@
-package com.asgarie.ClaimSender.entity.asg;
+package com.asgarie.ClaimSender.entity.ask;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "BasicDeathDetailsVO")
 public class BasicDeathDetailsVo implements Serializable {
     private Integer sepasId;
     private Integer deathYear;
@@ -16,8 +14,6 @@ public class BasicDeathDetailsVo implements Serializable {
     private String deathLocationCode;
     private HospitalWardVo hospitalWardVo;
 
-    @Id
-    @Column(name = "SepasID")
     public Integer getSepasId() {
         return sepasId;
     }
@@ -26,8 +22,6 @@ public class BasicDeathDetailsVo implements Serializable {
         this.sepasId = sepasId;
     }
 
-    @Basic
-    @Column(name = "DeathYear")
     public Integer getDeathYear() {
         return deathYear;
     }
@@ -36,8 +30,6 @@ public class BasicDeathDetailsVo implements Serializable {
         this.deathYear = deathYear;
     }
 
-    @Basic
-    @Column(name = "DeathMonth")
     public Integer getDeathMonth() {
         return deathMonth;
     }
@@ -46,8 +38,6 @@ public class BasicDeathDetailsVo implements Serializable {
         this.deathMonth = deathMonth;
     }
 
-    @Basic
-    @Column(name = "DeathDay")
     public Integer getDeathDay() {
         return deathDay;
     }
@@ -56,8 +46,6 @@ public class BasicDeathDetailsVo implements Serializable {
         this.deathDay = deathDay;
     }
 
-    @Basic
-    @Column(name = "DeathHour")
     public Integer getDeathHour() {
         return deathHour;
     }
@@ -66,8 +54,6 @@ public class BasicDeathDetailsVo implements Serializable {
         this.deathHour = deathHour;
     }
 
-    @Basic
-    @Column(name = "DeathMinute")
     public Integer getDeathMinute() {
         return deathMinute;
     }
@@ -76,8 +62,6 @@ public class BasicDeathDetailsVo implements Serializable {
         this.deathMinute = deathMinute;
     }
 
-    @Basic
-    @Column(name = "DeathSecond")
     public Integer getDeathSecond() {
         return deathSecond;
     }
@@ -86,8 +70,6 @@ public class BasicDeathDetailsVo implements Serializable {
         this.deathSecond = deathSecond;
     }
 
-    @Basic
-    @Column(name = "DeathLocationCode")
     public String getDeathLocationCode() {
         return deathLocationCode;
     }
@@ -96,8 +78,6 @@ public class BasicDeathDetailsVo implements Serializable {
         this.deathLocationCode = deathLocationCode;
     }
 
-    @Basic
-    @Column(name = "HospitalWard_HospitalWardVOFK")
     public HospitalWardVo getHospitalWardVo() {
         return hospitalWardVo;
     }

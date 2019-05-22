@@ -1,10 +1,8 @@
-package com.asgarie.ClaimSender.entity.asg;
+package com.asgarie.ClaimSender.entity.ask;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "ProviderInfoVO")
 public class ProviderInfoVo implements Serializable {
     private int id;
     private String firstName;
@@ -15,8 +13,6 @@ public class ProviderInfoVo implements Serializable {
     private String identifierType;
     private String identifierId;
 
-    @Id
-    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -25,8 +21,6 @@ public class ProviderInfoVo implements Serializable {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "FirstName")
     public String getFirstName() {
         return firstName;
     }
@@ -35,8 +29,6 @@ public class ProviderInfoVo implements Serializable {
         this.firstName = firstName;
     }
 
-    @Basic
-    @Column(name = "LastName")
     public String getLastName() {
         return lastName;
     }
@@ -45,8 +37,6 @@ public class ProviderInfoVo implements Serializable {
         this.lastName = lastName;
     }
 
-    @Basic
-    @Column(name = "FullName")
     public String getFullName() {
         return fullName;
     }
@@ -55,8 +45,6 @@ public class ProviderInfoVo implements Serializable {
         this.fullName = fullName;
     }
 
-    @Basic
-    @Column(name = "IdentifierIssuer")
     public String getIdentifierIssuer() {
         return identifierIssuer;
     }
@@ -65,8 +53,6 @@ public class ProviderInfoVo implements Serializable {
         this.identifierIssuer = identifierIssuer;
     }
 
-    @Basic
-    @Column(name = "IdentifierAssigner")
     public String getIdentifierAssigner() {
         return identifierAssigner;
     }
@@ -75,8 +61,6 @@ public class ProviderInfoVo implements Serializable {
         this.identifierAssigner = identifierAssigner;
     }
 
-    @Basic
-    @Column(name = "IdentifierType")
     public String getIdentifierType() {
         return identifierType;
     }
@@ -85,8 +69,6 @@ public class ProviderInfoVo implements Serializable {
         this.identifierType = identifierType;
     }
 
-    @Basic
-    @Column(name = "IdentifierId")
     public String getIdentifierId() {
         return identifierId;
     }

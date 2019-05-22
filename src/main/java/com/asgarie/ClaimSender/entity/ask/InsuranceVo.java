@@ -1,10 +1,8 @@
-package com.asgarie.ClaimSender.entity.asg;
+package com.asgarie.ClaimSender.entity.ask;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "InsuranceVo")
 public class InsuranceVo implements Serializable {
     private Integer sepasId;
     private int id;
@@ -18,8 +16,6 @@ public class InsuranceVo implements Serializable {
     private String shebad;
     private PatientTransfer patientTransfer;
 
-    @Id
-    @Column(name = "SepasID")
     public Integer getSepasId() {
         return sepasId;
     }
@@ -28,8 +24,6 @@ public class InsuranceVo implements Serializable {
         this.sepasId = sepasId;
     }
 
-    @Id
-    @Column(name = "ID")
     public int getId() {
         return id;
     }
@@ -38,8 +32,6 @@ public class InsuranceVo implements Serializable {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "InsuranceBookletSerialNumber")
     public String getInsuranceBookletSerialNumber() {
         return insuranceBookletSerialNumber;
     }
@@ -48,8 +40,6 @@ public class InsuranceVo implements Serializable {
         this.insuranceBookletSerialNumber = insuranceBookletSerialNumber;
     }
 
-    @Basic
-    @Column(name = "InsuranceExpirationYear")
     public Integer getInsuranceExpirationYear() {
         return insuranceExpirationYear;
     }
@@ -58,8 +48,6 @@ public class InsuranceVo implements Serializable {
         this.insuranceExpirationYear = insuranceExpirationYear;
     }
 
-    @Basic
-    @Column(name = "InsuranceExpirationMonth")
     public Integer getInsuranceExpirationMonth() {
         return insuranceExpirationMonth;
     }
@@ -68,8 +56,6 @@ public class InsuranceVo implements Serializable {
         this.insuranceExpirationMonth = insuranceExpirationMonth;
     }
 
-    @Basic
-    @Column(name = "InsuranceExpirationDay")
     public Integer getInsuranceExpirationDay() {
         return insuranceExpirationDay;
     }
@@ -78,8 +64,6 @@ public class InsuranceVo implements Serializable {
         this.insuranceExpirationDay = insuranceExpirationDay;
     }
 
-    @Basic
-    @Column(name = "InsuranceBoxCode")
     public String getInsuranceBoxCode() {
         return insuranceBoxCode;
     }
@@ -88,8 +72,6 @@ public class InsuranceVo implements Serializable {
         this.insuranceBoxCode = insuranceBoxCode;
     }
 
-    @Basic
-    @Column(name = "InsuredNumber")
     public String getInsuredNumber() {
         return insuredNumber;
     }
@@ -98,8 +80,6 @@ public class InsuranceVo implements Serializable {
         this.insuredNumber = insuredNumber;
     }
 
-    @Basic
-    @Column(name = "InsurerCode")
     public String getInsurerCode() {
         return insurerCode;
     }
@@ -108,8 +88,6 @@ public class InsuranceVo implements Serializable {
         this.insurerCode = insurerCode;
     }
 
-    @Basic
-    @Column(name = "SHEBAD")
     public String getShebad() {
         return shebad;
     }
@@ -118,8 +96,6 @@ public class InsuranceVo implements Serializable {
         this.shebad = shebad;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "SepasID", referencedColumnName = "SepasID", nullable = false)
     public PatientTransfer getPatientTransfer() {
         return patientTransfer;
     }

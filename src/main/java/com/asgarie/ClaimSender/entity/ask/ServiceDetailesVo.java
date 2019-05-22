@@ -1,10 +1,8 @@
-package com.asgarie.ClaimSender.entity.asg;
+package com.asgarie.ClaimSender.entity.ask;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "ServiceDetailesVo")
 public class ServiceDetailesVo implements Serializable {
     private Integer sepasId;
     private int id;
@@ -42,8 +40,6 @@ public class ServiceDetailesVo implements Serializable {
     private String terminology;
     private PatientTransfer patientTransfer;
 
-    @Id
-    @Column(name = "SepasID")
     public Integer getSepasId() {
         return sepasId;
     }
@@ -52,8 +48,6 @@ public class ServiceDetailesVo implements Serializable {
         this.sepasId = sepasId;
     }
 
-    @Id
-    @Column(name = "ID")
     public int getId() {
         return id;
     }
@@ -62,8 +56,6 @@ public class ServiceDetailesVo implements Serializable {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "BasicInsuranceContribution")
     public Double getBasicInsuranceContribution() {
         return basicInsuranceContribution;
     }
@@ -72,8 +64,6 @@ public class ServiceDetailesVo implements Serializable {
         this.basicInsuranceContribution = basicInsuranceContribution;
     }
 
-    @Basic
-    @Column(name = "PatientContribution")
     public Double getPatientContribution() {
         return patientContribution;
     }
@@ -82,8 +72,6 @@ public class ServiceDetailesVo implements Serializable {
         this.patientContribution = patientContribution;
     }
 
-    @Basic
-    @Column(name = "TotalCharge")
     public Double getTotalCharge() {
         return totalCharge;
     }
@@ -92,8 +80,6 @@ public class ServiceDetailesVo implements Serializable {
         this.totalCharge = totalCharge;
     }
 
-    @Basic
-    @Column(name = "Bed")
     public String getBed() {
         return bed;
     }
@@ -102,8 +88,6 @@ public class ServiceDetailesVo implements Serializable {
         this.bed = bed;
     }
 
-    @Basic
-    @Column(name = "Room")
     public String getRoom() {
         return room;
     }
@@ -112,8 +96,6 @@ public class ServiceDetailesVo implements Serializable {
         this.room = room;
     }
 
-    @Basic
-    @Column(name = "StartYear")
     public Integer getStartYear() {
         return startYear;
     }
@@ -122,8 +104,6 @@ public class ServiceDetailesVo implements Serializable {
         this.startYear = startYear;
     }
 
-    @Basic
-    @Column(name = "StartMonth")
     public Integer getStartMonth() {
         return startMonth;
     }
@@ -132,8 +112,6 @@ public class ServiceDetailesVo implements Serializable {
         this.startMonth = startMonth;
     }
 
-    @Basic
-    @Column(name = "StartDay")
     public Integer getStartDay() {
         return startDay;
     }
@@ -142,8 +120,6 @@ public class ServiceDetailesVo implements Serializable {
         this.startDay = startDay;
     }
 
-    @Basic
-    @Column(name = "StartHour")
     public Integer getStartHour() {
         return startHour;
     }
@@ -152,8 +128,6 @@ public class ServiceDetailesVo implements Serializable {
         this.startHour = startHour;
     }
 
-    @Basic
-    @Column(name = "StartMinute")
     public Integer getStartMinute() {
         return startMinute;
     }
@@ -162,8 +136,6 @@ public class ServiceDetailesVo implements Serializable {
         this.startMinute = startMinute;
     }
 
-    @Basic
-    @Column(name = "StartSecond")
     public Integer getStartSecond() {
         return startSecond;
     }
@@ -172,8 +144,6 @@ public class ServiceDetailesVo implements Serializable {
         this.startSecond = startSecond;
     }
 
-    @Basic
-    @Column(name = "EndYear")
     public Integer getEndYear() {
         return endYear;
     }
@@ -182,8 +152,6 @@ public class ServiceDetailesVo implements Serializable {
         this.endYear = endYear;
     }
 
-    @Basic
-    @Column(name = "EndMonth")
     public Integer getEndMonth() {
         return endMonth;
     }
@@ -192,8 +160,6 @@ public class ServiceDetailesVo implements Serializable {
         this.endMonth = endMonth;
     }
 
-    @Basic
-    @Column(name = "EndDay")
     public Integer getEndDay() {
         return endDay;
     }
@@ -202,8 +168,6 @@ public class ServiceDetailesVo implements Serializable {
         this.endDay = endDay;
     }
 
-    @Basic
-    @Column(name = "EndHour")
     public Integer getEndHour() {
         return endHour;
     }
@@ -212,8 +176,6 @@ public class ServiceDetailesVo implements Serializable {
         this.endHour = endHour;
     }
 
-    @Basic
-    @Column(name = "EndMinute")
     public Integer getEndMinute() {
         return endMinute;
     }
@@ -222,8 +184,6 @@ public class ServiceDetailesVo implements Serializable {
         this.endMinute = endMinute;
     }
 
-    @Basic
-    @Column(name = "EndSecond")
     public Integer getEndSecond() {
         return endSecond;
     }
@@ -232,8 +192,6 @@ public class ServiceDetailesVo implements Serializable {
         this.endSecond = endSecond;
     }
 
-    @Basic
-    @Column(name = "ServiceCode")
     public String getServiceCode() {
         return serviceCode;
     }
@@ -242,8 +200,6 @@ public class ServiceDetailesVo implements Serializable {
         this.serviceCode = serviceCode;
     }
 
-    @Basic
-    @Column(name = "ServiceTerminology")
     public String getServiceTerminology() {
         return serviceTerminology;
     }
@@ -252,8 +208,6 @@ public class ServiceDetailesVo implements Serializable {
         this.serviceTerminology = serviceTerminology;
     }
 
-    @Basic
-    @Column(name = "ServiceCountMagnitude")
     public Double getServiceCountMagnitude() {
         return serviceCountMagnitude;
     }
@@ -262,8 +216,6 @@ public class ServiceDetailesVo implements Serializable {
         this.serviceCountMagnitude = serviceCountMagnitude;
     }
 
-    @Basic
-    @Column(name = "ServiceCount")
     public String getServiceCount() {
         return serviceCount;
     }
@@ -272,8 +224,6 @@ public class ServiceDetailesVo implements Serializable {
         this.serviceCount = serviceCount;
     }
 
-    @Basic
-    @Column(name = "ServiceType")
     public Float getServiceType() {
         return serviceType;
     }
@@ -282,8 +232,6 @@ public class ServiceDetailesVo implements Serializable {
         this.serviceType = serviceType;
     }
 
-    @Basic
-    @Column(name = "ServiceTitle")
     public String getServiceTitle() {
         return serviceTitle;
     }
@@ -292,8 +240,6 @@ public class ServiceDetailesVo implements Serializable {
         this.serviceTitle = serviceTitle;
     }
 
-    @Basic
-    @Column(name = "WardName")
     public String getWardName() {
         return wardName;
     }
@@ -302,8 +248,6 @@ public class ServiceDetailesVo implements Serializable {
         this.wardName = wardName;
     }
 
-    @Basic
-    @Column(name = "WardType")
     public String getWardType() {
         return wardType;
     }
@@ -312,8 +256,6 @@ public class ServiceDetailesVo implements Serializable {
         this.wardType = wardType;
     }
 
-    @Basic
-    @Column(name = "PKID")
     public String getPkid() {
         return pkid;
     }
@@ -322,8 +264,6 @@ public class ServiceDetailesVo implements Serializable {
         this.pkid = pkid;
     }
 
-    @Basic
-    @Column(name = "T_Cost")
     public Double gettCost() {
         return tCost;
     }
@@ -332,8 +272,6 @@ public class ServiceDetailesVo implements Serializable {
         this.tCost = tCost;
     }
 
-    @Basic
-    @Column(name = "D_Cost")
     public Double getdCost() {
         return dCost;
     }
@@ -342,8 +280,6 @@ public class ServiceDetailesVo implements Serializable {
         this.dCost = dCost;
     }
 
-    @Basic
-    @Column(name = "TakmiliCost")
     public Double getTakmiliCost() {
         return takmiliCost;
     }
@@ -352,8 +288,6 @@ public class ServiceDetailesVo implements Serializable {
         this.takmiliCost = takmiliCost;
     }
 
-    @Basic
-    @Column(name = "ZaribFani")
     public Double getZaribFani() {
         return zaribFani;
     }
@@ -362,8 +296,6 @@ public class ServiceDetailesVo implements Serializable {
         this.zaribFani = zaribFani;
     }
 
-    @Basic
-    @Column(name = "ZaribHerfei")
     public Double getZaribHerfei() {
         return zaribHerfei;
     }
@@ -372,8 +304,6 @@ public class ServiceDetailesVo implements Serializable {
         this.zaribHerfei = zaribHerfei;
     }
 
-    @Basic
-    @Column(name = "Terminology")
     public String getTerminology() {
         return terminology;
     }
@@ -382,8 +312,6 @@ public class ServiceDetailesVo implements Serializable {
         this.terminology = terminology;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "SepasID", referencedColumnName = "SepasID", nullable = false)
     public PatientTransfer getPatientTransfer() {
         return patientTransfer;
     }

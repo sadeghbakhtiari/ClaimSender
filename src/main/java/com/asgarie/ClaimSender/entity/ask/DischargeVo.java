@@ -1,10 +1,8 @@
-package com.asgarie.ClaimSender.entity.asg;
+package com.asgarie.ClaimSender.entity.ask;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "DischargeVO")
 public class DischargeVo implements Serializable {
     private Integer sepasId;
     private String conditionOnDischargeCode;
@@ -16,8 +14,6 @@ public class DischargeVo implements Serializable {
     private Integer dischargeSecond;
     private PatientTransfer patientTransfer;
 
-    @Id
-    @Column(name = "SepasID")
     public Integer getSepasId() {
         return sepasId;
     }
@@ -26,8 +22,6 @@ public class DischargeVo implements Serializable {
         this.sepasId = sepasId;
     }
 
-    @Basic
-    @Column(name = "ConditionOnDischargeCode")
     public String getConditionOnDischargeCode() {
         return conditionOnDischargeCode;
     }
@@ -36,8 +30,6 @@ public class DischargeVo implements Serializable {
         this.conditionOnDischargeCode = conditionOnDischargeCode;
     }
 
-    @Basic
-    @Column(name = "DischargeYear")
     public Integer getDischargeYear() {
         return dischargeYear;
     }
@@ -46,8 +38,6 @@ public class DischargeVo implements Serializable {
         this.dischargeYear = dischargeYear;
     }
 
-    @Basic
-    @Column(name = "DischargeMonth")
     public Integer getDischargeMonth() {
         return dischargeMonth;
     }
@@ -56,8 +46,6 @@ public class DischargeVo implements Serializable {
         this.dischargeMonth = dischargeMonth;
     }
 
-    @Basic
-    @Column(name = "DischargeDay")
     public Integer getDischargeDay() {
         return dischargeDay;
     }
@@ -66,8 +54,6 @@ public class DischargeVo implements Serializable {
         this.dischargeDay = dischargeDay;
     }
 
-    @Basic
-    @Column(name = "DischargeHour")
     public Integer getDischargeHour() {
         return dischargeHour;
     }
@@ -76,8 +62,6 @@ public class DischargeVo implements Serializable {
         this.dischargeHour = dischargeHour;
     }
 
-    @Basic
-    @Column(name = "DischargeMinute")
     public Integer getDischargeMinute() {
         return dischargeMinute;
     }
@@ -86,8 +70,6 @@ public class DischargeVo implements Serializable {
         this.dischargeMinute = dischargeMinute;
     }
 
-    @Basic
-    @Column(name = "DischargeSecond")
     public Integer getDischargeSecond() {
         return dischargeSecond;
     }
@@ -96,8 +78,6 @@ public class DischargeVo implements Serializable {
         this.dischargeSecond = dischargeSecond;
     }
 
-    @OneToOne
-    @JoinColumn(name = "SepasID", referencedColumnName = "SepasID", nullable = false)
     public PatientTransfer getPatientTransfer() {
         return patientTransfer;
     }

@@ -9,13 +9,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 //@EnableBatchProcessing
-//@EnableScheduling
 public class ClaimSenderApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ClaimSenderApplication.class, args);
 	}
-
-
 
 }

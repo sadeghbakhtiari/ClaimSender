@@ -1,10 +1,8 @@
-package com.asgarie.ClaimSender.entity.asg;
+package com.asgarie.ClaimSender.entity.ask;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "HealthcareProviderVo")
 public class HealthcareProviderVo implements Serializable {
     private Integer sepasId;
     private int healthcareProviderFk;
@@ -20,8 +18,6 @@ public class HealthcareProviderVo implements Serializable {
     private String role;
     private PatientTransfer patientTransfer;
 
-    @Id
-    @Column(name = "SepasID")
     public Integer getSepasId() {
         return sepasId;
     }
@@ -30,8 +26,6 @@ public class HealthcareProviderVo implements Serializable {
         this.sepasId = sepasId;
     }
 
-    @Id
-    @Column(name = "HealthcareProviderFK")
     public int getHealthcareProviderFk() {
         return healthcareProviderFk;
     }
@@ -40,8 +34,6 @@ public class HealthcareProviderVo implements Serializable {
         this.healthcareProviderFk = healthcareProviderFk;
     }
 
-    @Basic
-    @Column(name = "FirstName")
     public String getFirstName() {
         return firstName;
     }
@@ -50,8 +42,6 @@ public class HealthcareProviderVo implements Serializable {
         this.firstName = firstName;
     }
 
-    @Basic
-    @Column(name = "LastName")
     public String getLastName() {
         return lastName;
     }
@@ -60,8 +50,6 @@ public class HealthcareProviderVo implements Serializable {
         this.lastName = lastName;
     }
 
-    @Basic
-    @Column(name = "FullName")
     public String getFullName() {
         return fullName;
     }
@@ -70,8 +58,6 @@ public class HealthcareProviderVo implements Serializable {
         this.fullName = fullName;
     }
 
-    @Basic
-    @Column(name = "IdentifierIssuer")
     public String getIdentifierIssuer() {
         return identifierIssuer;
     }
@@ -80,8 +66,6 @@ public class HealthcareProviderVo implements Serializable {
         this.identifierIssuer = identifierIssuer;
     }
 
-    @Basic
-    @Column(name = "IdentifierAssigner")
     public String getIdentifierAssigner() {
         return identifierAssigner;
     }
@@ -90,8 +74,6 @@ public class HealthcareProviderVo implements Serializable {
         this.identifierAssigner = identifierAssigner;
     }
 
-    @Basic
-    @Column(name = "IdentifierType")
     public String getIdentifierType() {
         return identifierType;
     }
@@ -100,8 +82,6 @@ public class HealthcareProviderVo implements Serializable {
         this.identifierType = identifierType;
     }
 
-    @Basic
-    @Column(name = "IdentifierId")
     public String getIdentifierId() {
         return identifierId;
     }
@@ -110,8 +90,6 @@ public class HealthcareProviderVo implements Serializable {
         this.identifierId = identifierId;
     }
 
-    @Basic
-    @Column(name = "RoleCode")
     public String getRoleCode() {
         return roleCode;
     }
@@ -120,8 +98,6 @@ public class HealthcareProviderVo implements Serializable {
         this.roleCode = roleCode;
     }
 
-    @Basic
-    @Column(name = "SpecialtyCode")
     public String getSpecialtyCode() {
         return specialtyCode;
     }
@@ -130,8 +106,6 @@ public class HealthcareProviderVo implements Serializable {
         this.specialtyCode = specialtyCode;
     }
 
-    @Basic
-    @Column(name = "Role")
     public String getRole() {
         return role;
     }
@@ -140,8 +114,6 @@ public class HealthcareProviderVo implements Serializable {
         this.role = role;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "SepasID", referencedColumnName = "SepasID", nullable = false)
     public PatientTransfer getPatientTransfer() {
         return patientTransfer;
     }
