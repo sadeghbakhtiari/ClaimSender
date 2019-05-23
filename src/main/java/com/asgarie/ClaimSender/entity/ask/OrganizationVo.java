@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 public class OrganizationVo implements Serializable {
+    private Integer id;
     private String idOrgan;
     private String name;
     private Integer type;
@@ -59,4 +60,15 @@ public class OrganizationVo implements Serializable {
         this.hospitalAccreditation = hospitalAccreditation;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
 }

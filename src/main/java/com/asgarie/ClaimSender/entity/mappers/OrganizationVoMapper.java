@@ -12,6 +12,8 @@ public class OrganizationVoMapper implements RowMapper<OrganizationVo> {
     @Override
     public OrganizationVo mapRow(ResultSet row, int rowNum) throws SQLException {
         OrganizationVo organizationVo = new OrganizationVo();
+        organizationVo.setId(CommonUtils.handleNull(row.getString("id")));
+        organizationVo.setType(CommonUtils.handleNull(row.getString("Type")));
         organizationVo.setIdOrgan(row.getString("IDOrgan"));
         organizationVo.setName(row.getString("Name"));
         organizationVo.setType(CommonUtils.handleNull(row.getString("Type")));

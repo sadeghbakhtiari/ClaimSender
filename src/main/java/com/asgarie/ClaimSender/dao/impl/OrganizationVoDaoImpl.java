@@ -13,11 +13,11 @@ public class OrganizationVoDaoImpl implements OrganizationVoDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Override
-    public OrganizationVo getById(Integer sepasId) {
+    public OrganizationVo getById(Integer id) {
 
-        String sql = "SELECT  * FROM OrganizationVo WHERE SepasID = ?";
+        String sql = "SELECT  * FROM OrganizationVo WHERE id = ?";
         RowMapper<OrganizationVo> rowMapper = new BeanPropertyRowMapper<>(OrganizationVo.class);
-        OrganizationVo organizationVo = jdbcTemplate.queryForObject(sql, rowMapper, sepasId);
+        OrganizationVo organizationVo = jdbcTemplate.queryForObject(sql, rowMapper, id);
         return organizationVo;
     }
 }

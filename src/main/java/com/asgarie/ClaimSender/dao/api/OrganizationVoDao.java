@@ -4,6 +4,6 @@ import com.asgarie.ClaimSender.entity.ask.AdmissionVo;
 import com.asgarie.ClaimSender.entity.ask.OrganizationVo;
 
 public interface OrganizationVoDao {
-    OrganizationVo getById(Integer sepasId);
+    OrganizationVo getById(Integer id);
 
 }
