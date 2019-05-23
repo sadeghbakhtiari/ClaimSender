@@ -5,7 +5,7 @@ import com.asgarie.ClaimSender.entity.ask.PatientTransfer;
 import java.util.List;
 
 public interface PatientTransferDao {
-//    PatientTransfer getPatientTransfer(Integer sepasId);
+//    PatientTransfer getHospitalWardVOFK(Integer sepasId);
 
     List<PatientTransfer> getAllPatientTransferList();
 

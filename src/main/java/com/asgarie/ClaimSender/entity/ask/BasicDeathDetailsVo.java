@@ -12,7 +12,7 @@ public class BasicDeathDetailsVo implements Serializable {
     private Integer deathMinute;
     private Integer deathSecond;
     private String deathLocationCode;
-    private HospitalWardVo hospitalWardVo;
+    private Integer hospitalWardVo;
 
     public Integer getSepasId() {
         return sepasId;
@@ -78,11 +78,11 @@ public class BasicDeathDetailsVo implements Serializable {
         this.deathLocationCode = deathLocationCode;
     }
 
-    public HospitalWardVo getHospitalWardVo() {
+    public Integer getHospitalWardVo() {
         return hospitalWardVo;
     }
 
-    public void setHospitalWardVo(HospitalWardVo hospitalWardVo) {
+    public void setHospitalWardVo(Integer hospitalWardVo) {
         this.hospitalWardVo = hospitalWardVo;
     }
 
