@@ -1,13 +1,7 @@
 package com.asgarie.ClaimSender.service.impl;
 
-import com.asgarie.ClaimSender.dao.api.AdmissionDao;
-import com.asgarie.ClaimSender.dao.api.OrganizationVoDao;
-import com.asgarie.ClaimSender.dao.api.PatientTransferDao;
-import com.asgarie.ClaimSender.dao.api.PersonInfoVoDao;
-import com.asgarie.ClaimSender.entity.ask.AdmissionVo;
-import com.asgarie.ClaimSender.entity.ask.OrganizationVo;
-import com.asgarie.ClaimSender.entity.ask.PatientTransfer;
-import com.asgarie.ClaimSender.entity.ask.PersonInfoVo;
+import com.asgarie.ClaimSender.dao.api.*;
+import com.asgarie.ClaimSender.entity.ask.*;
 import com.asgarie.ClaimSender.service.api.AskarService;
 import model.ws.ir.gov.behdasht.sepas.PatientBillMessageVO;
 import model.ws.ir.gov.behdasht.thrita.vm.*;
@@ -19,6 +13,8 @@ import java.util.List;
 
 @Service
 public class AskarServiceImpl implements AskarService {
+    public static final String TERMINOLOGY = "TERMINOLOGY";
+    public static final String UNIT = "UNIT";
 
     @Autowired
     private AdmissionDao admissionDao;
@@ -31,6 +27,28 @@ public class AskarServiceImpl implements AskarService {
 
     @Autowired
     private OrganizationVoDao organizationDao;
+    @Autowired
+    private HospitalWardVoDao hospitalWardVoDao;
+    @Autowired
+    private BasicDeathDetailsVoDao basicDeathDetailsVoDao;
+    @Autowired
+    private BillSummaryVoDao billSummaryVoDao;
+    @Autowired
+    private DiagnosisVoDao diagnosisVoDao;
+    @Autowired
+    private DischargeVoDao dischargeVoDao;
+    @Autowired
+    private HealthcareProviderVoDao healthcareProviderVoDao;
+    @Autowired
+    private InsuranceVoDao insuranceVoDao;
+    @Autowired
+    private OrganizationVoDao getOrganizationDao;
+    @Autowired
+    private PatientTransferDao getPatientTransferDao;
+    @Autowired
+    private ServiceDetailesVoDao serviceDetailesVoDao;
+    @Autowired
+    private ServiceGroupRowVoDao serviceGroupRowVoDao;
 
     @Override
     public void showHelloMessage() {
@@ -50,81 +68,172 @@ public class AskarServiceImpl implements AskarService {
         transferList.forEach(t -> {
             PatientBillMessageVO messageVO = new PatientBillMessageVO();
             BillPatientCompositionVO compositionVO = new BillPatientCompositionVO();
-            OrganizationVO organizationVO = new OrganizationVO();
-            OrganizationVo org = organizationDao.getById(1);
-            organizationVO.setName(org.getName());
             messageVO.setComposition(compositionVO);
 
             messageVOList.add(messageVO);
         });
-
         return messageVOList;
     }
 
     @Override
-    public PatientBillMessageVO convertAdmissionVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId) {
+    public PatientBillMessageVO convertPatientBillMessageVO(Integer sepasId) {
+        PatientBillMessageVO patientBillMessageVO = new PatientBillMessageVO();
+        patientBillMessageVO.setComposition(convertBillPatientCompositionVO(sepasId));
+        patientBillMessageVO.setMsgID(convertMessageIdentifierVO(sepasId));
+        patientBillMessageVO.setPerson(convertPersonInfoVo(sepasId));
+        return patientBillMessageVO;
+    }
+
+    @Override
+    public BillPatientCompositionVO convertBillPatientCompositionVO(Integer sepasId) {
+        BillPatientCompositionVO billPatientCompositionVO = new BillPatientCompositionVO();
+        billPatientCompositionVO.setAdmission(convertAdmissionVo(sepasId));
+        billPatientCompositionVO.setInsurance(convertInsuranceVo(sepasId));
+        billPatientCompositionVO.setDiagnosis(convertDiagnosisVo(sepasId));
+        billPatientCompositionVO.setDischarge(convertDischargeVo(sepasId));
+        billPatientCompositionVO.setDeath(convertBasicDeathDetailsVo(sepasId));
+        billPatientCompositionVO.setBillSummary(convertBillSummaryVo(sepasId));
+        billPatientCompositionVO.setBillServices(convertServiceDetailesVo(sepasId));
+        return billPatientCompositionVO;
+    }
+
+    @Override
+    public MessageIdentifierVO convertMessageIdentifierVO(Integer sepasId) {
+        MessageIdentifierVO messageIdentifierVO = new MessageIdentifierVO();
+//        messageIdentifierVO.setCommitter();
+//        messageIdentifierVO.setVersionLifecycleState();
+//        messageIdentifierVO.setSystemID();
+//        messageIdentifierVO.setPatientUID();
+//        messageIdentifierVO.setISQueriable();
+//        messageIdentifierVO.setHealthCareFacilityID();
+//        messageIdentifierVO.setCompositionUID();
+//        messageIdentifierVO.setCompositionSignature();
+        return messageIdentifierVO;
+    }
+
+    @Override
+    public AdmissionVO convertAdmissionVo(Integer sepasId) {
         AdmissionVO admissionVO = new AdmissionVO();
         AdmissionVo admission = admissionDao.getById(sepasId);
         admissionVO.setMedicalRecordNumber(admission.getMedicalRecordNumber());
         admissionVO.setInstitute(convertOrganizationVo(sepasId));
+        DODATE bDate = new DODATE();
+        bDate.setDay(admission.getAdmissionDay());
+        bDate.setMonth(admission.getAdmissionMonth());
+        bDate.setYear(admission.getAdmissionYear());
+        admissionVO.setAdmissionDate(bDate);
+        DOTIME dotime = new DOTIME();
+        dotime.setHour(admission.getAdmissionHour());
+        dotime.setMinute(admission.getAdmissionMinute());
+        dotime.setSecond(admission.getAdmissionSecond());
+        admissionVO.setAdmissionTime(dotime);
+        admissionVO.setReferringDoctor(null);
+        admissionVO.setReasonForEncounter(null);
+//        admissionVO.setEMSID();
+        admissionVO.setAttendingDoctor(null);
+        admissionVO.setAdmittingDoctor(null);
+        admissionVO.setAdmissionWard(convertHospitalWardVo(sepasId));
+        DOCODEDTEXT admissionType = new DOCODEDTEXT();
+        admissionType.setValue("----------");//TOODo update
+        admissionType.setTerminologyId(TERMINOLOGY);
+        admissionType.setCodedString(admission.getAdmissionTypeCode());
+        admissionVO.setAdmissionType(admissionType);
+        return admissionVO;
+    }
 
-        patientBillMessageVO.getComposition().setAdmission(admissionVO);
+    @Override
+    public BasicDeathDetailsVO convertBasicDeathDetailsVo(Integer sepasId) {
+        BasicDeathDetailsVo detailsVo = basicDeathDetailsVoDao.getById(sepasId);
+        BasicDeathDetailsVO basicDeathDetailsVO = new BasicDeathDetailsVO();
+//        basicDeathDetailsVO.setCause();//todo update
+//        basicDeathDetailsVO.setHospitalWard();//todo update
+        basicDeathDetailsVO.setDeathTime(getTime(detailsVo.getDeathHour(), detailsVo.getDeathMinute(), detailsVo.getDeathSecond()));
+        basicDeathDetailsVO.setDeathLocation(getDocodedtext(TERMINOLOGY, "", detailsVo.getDeathLocationCode()));//todo update
+        basicDeathDetailsVO.setDeathDate(getDate(detailsVo.getDeathYear(), detailsVo.getDeathMonth(), detailsVo.getDeathDay()));
         return null;
     }
 
     @Override
-    public PatientBillMessageVO convertBasicDeathDetailsVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId) {
+    public BillSummaryVO convertBillSummaryVo(Integer sepasId) {
+        BillSummaryVo billSummary = billSummaryVoDao.getById(sepasId);
+        BillSummaryVO billSummaryVO = new BillSummaryVO();
+        billSummaryVO.setGlobalPackage(null);
+        billSummaryVO.setTotalPatientContribution(getDoquantity(billSummary.getTotalPatientContribution(), UNIT));
+        billSummaryVO.setTotalOtherCosts();
+        billSummaryVO.setTotalCharge(getDoquantity(billSummary.getTotalCharge(), UNIT));
+        billSummaryVO.setTotalBasicInsuranceContribution(getDoquantity(billSummary.getTotalBasicInsuranceContribution(), UNIT));
+        billSummaryVO.setServiceGroupRow(convertServiceGroupRowVo(sepasId));
+        billSummaryVO.setMedicalRecordType(getDocodedtext(TERMINOLOGY, "", billSummary.getMedicalRecordTypeCode()));//todo update
+        billSummaryVO.setInsurerBox(null);
+        billSummaryVO.setHospitalAccreditation(1);
         return null;
     }
 
     @Override
-    public PatientBillMessageVO convertBillSummaryVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId) {
+    public ArrayOfQuantitiesVO convertArrayOfQuantitiesVO(BillSummaryVo billSummaryVo) {
+        ArrayOfQuantitiesVO arrayOfQuantitiesVO = new ArrayOfQuantitiesVO();
+        QuantitiesVO quantitiesVO = new QuantitiesVO();
+        quantitiesVO.setName(getDocodedtext(TERMINOLOGY, "tarrif", "13"));
+        quantitiesVO.setValue(getDoquantity(billSummaryVo.gettCost(), UNIT));
+        arrayOfQuantitiesVO.
+        return arrayOfQuantitiesVO;
+    }
+
+    @Override
+    public CauseVO convertCauseVo(Integer sepasId) {
         return null;
     }
 
     @Override
-    public PatientBillMessageVO convertCauseVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId) {
+    public ArrayOfDiagnosisVO convertDiagnosisVo(Integer sepasId) {
+        List<DiagnosisVo> diagnosisVoList = diagnosisVoDao.getList(sepasId);
+        ArrayOfDiagnosisVO arrayOfDiagnosisVO = new ArrayOfDiagnosisVO();
+        arrayOfDiagnosisVO.
         return null;
     }
 
     @Override
-    public PatientBillMessageVO convertDiagnosisVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId) {
+    public DischargeVO convertDischargeVo(Integer sepasId) {
+        DischargeVo discharge = dischargeVoDao.getById(sepasId);
+        DischargeVO dischargeVO = new DischargeVO();
+        dischargeVO.setConditionOnDischarge(getDocodedtext(TERMINOLOGY, "", discharge.getConditionOnDischargeCode()));//todo
+        dischargeVO.setDischargeDate(getDate(discharge.getDischargeYear(), discharge.getDischargeMonth(), discharge.getDischargeDay()));
+        dischargeVO.setDischargeTime(getTime(discharge.getDischargeHour(), discharge.getDischargeMinute(), discharge.getDischargeSecond()));
+        return dischargeVO;
+    }
+
+    @Override
+    public HighLevelAreaVO convertHighLevelAreaVo(Integer sepasId) {
         return null;
     }
 
     @Override
-    public PatientBillMessageVO convertDischargeVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId) {
+    public ArrayOfInsuranceVO convertInsuranceVo(Integer sepasId) {
+        InsuranceVO insuranceVO = new InsuranceVO();
+        InsuranceVo insurance = new InsuranceVo();
+        insuranceVO.setInsuranceBookletSerialNumber(insurance.getInsuranceBookletSerialNumber());
+        insuranceVO.setSHEBAD();
+        insuranceVO.setInsurer(getDocodedtext(TERMINOLOGY, "", insurance.getInsurerCode()));
+        insuranceVO.setInsuredNumber(insurance.getInsuredNumber());
+//        insuranceVO.setInsuranceOtherCosts();
+        insuranceVO.setInsuranceExpirationDate(getDate(insurance.getInsuranceExpirationYear(), insurance.getInsuranceExpirationMonth(), insurance.getInsuranceExpirationDay()));
+//        insuranceVO.setInsuranceContribution();
+        insuranceVO.setInsuranceBox(getDocodedtext(TERMINOLOGY, "", insurance.getInsuranceBoxCode()));
         return null;
     }
 
     @Override
-    public PatientBillMessageVO convertHealthcareProviderVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId) {
-        return null;
+    public OrganizationVO convertOrganizationVo(Integer sepasId) {
+        OrganizationVO organizationVO = new OrganizationVO();
+        OrganizationVo org = organizationDao.getById(1);
+        organizationVO.setName(org.getName());
+        organizationVO.setID(org.get);
+        return organizationVO;
     }
 
     @Override
-    public PatientBillMessageVO convertHighLevelAreaVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId) {
-        return null;
-    }
-
-    @Override
-    public PatientBillMessageVO convertHospitalWardVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId) {
-        return null;
-    }
-
-    @Override
-    public PatientBillMessageVO convertInsuranceVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId) {
-        return null;
-    }
-
-    @Override
-    public PatientBillMessageVO convertOrganizationVo(Integer sepasId) {
-        return null;
-    }
-
-    @Override
-    public PatientBillMessageVO convertPersonInfoVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId) {
-        PersonInfoVo person = personDao.getById(t.getSepasId());
+    public PersonInfoVO convertPersonInfoVo(Integer sepasId) {
+        PersonInfoVo person = personDao.getById(sepasId);
         PersonInfoVO personInfoVO = new PersonInfoVO();
         DODATE bDate = new DODATE();
         bDate.setDay(person.getBirthDay());
@@ -134,22 +243,71 @@ public class AskarServiceImpl implements AskarService {
         personInfoVO.setFirstName(person.getFirstName());
         personInfoVO.setLastName(person.getLastName());
         personInfoVO.setNationalCode(person.getNationalCode());
-        patientBillMessageVO.setPerson(personInfoVO);
-        return patientBillMessageVO;
+        return personInfoVO;
     }
 
     @Override
-    public PatientBillMessageVO convertServiceDetailesVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId) {
+    public ArrayOfServiceDetailsVO1 convertServiceDetailesVo(Integer sepasId) {
         return null;
     }
 
     @Override
-    public PatientBillMessageVO convertServiceGroupRowVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId) {
+    public ArrayOfServiceGroupRowVO convertServiceGroupRowVo(Integer sepasId) {
         return null;
     }
 
     @Override
-    public PatientBillMessageVO convert(PatientBillMessageVO patientBillMessageVO, Integer sepasId) {
-        return null;
+    public HospitalWardVO convertHospitalWardVo(Integer sepasId) {
+        HospitalWardVo ward = hospitalWardVoDao.getById(sepasId);
+        HospitalWardVO hospitalWardVO = new HospitalWardVO();
+        hospitalWardVO.setBed(ward.getBed());
+        hospitalWardVO.setName(ward.getName());
+        hospitalWardVO.setRoom(ward.getRoom());
+        DOCODEDTEXT type = new DOCODEDTEXT();
+        type.setCodedString(ward.getTypeCode());
+        type.setTerminologyId("takht");
+        type.setValue(ward.getName());
+        hospitalWardVO.setType(type);
+        return hospitalWardVO;
+    }
+
+    private DOTIME getTime(int hour, int minute, int second) {
+        DOTIME dotime = new DOTIME();
+        dotime.setHour(hour);
+        dotime.setMinute(minute);
+        dotime.setSecond(second);
+        return dotime;
+    }
+
+    private DODATE getDate(int year, int month, int day) {
+        DODATE dodate = new DODATE();
+        dodate.setYear(year);
+        dodate.setMonth(month);
+        dodate.setDay(day);
+        return dodate;
+    }
+
+    private DOCODEDTEXT getDocodedtext(String terminologyId, String value, String codedString) {
+        DOCODEDTEXT docodedtext = new DOCODEDTEXT();
+        docodedtext.setTerminologyId(terminologyId);
+        docodedtext.setValue(value);
+        docodedtext.setCodedString(codedString);
+        return docodedtext;
+    }
+
+    private DOQUANTITY getDoquantity(Double magnitude, String unit) {
+        DOQUANTITY doquantity = new DOQUANTITY();
+        doquantity.setMagnitude(magnitude);
+        doquantity.setUnit(unit);
+        return doquantity;
+    }
+
+    private DOIDENTIFIER getDoidentifier(String assigner, String id, String issuer, String type) {
+        DOIDENTIFIER doidentifier = new DOIDENTIFIER();
+        doidentifier.setAssigner(assigner);
+        doidentifier.setID(id);
+        doidentifier.setIssuer(issuer);
+        doidentifier.setType(type);
+        return doidentifier;
     }
 }

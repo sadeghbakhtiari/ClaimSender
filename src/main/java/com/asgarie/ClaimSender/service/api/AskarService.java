@@ -1,7 +1,9 @@
 package com.asgarie.ClaimSender.service.api;
 
+import com.asgarie.ClaimSender.entity.ask.BillSummaryVo;
 import com.asgarie.ClaimSender.entity.ask.PatientTransfer;
 import model.ws.ir.gov.behdasht.sepas.PatientBillMessageVO;
+import model.ws.ir.gov.behdasht.thrita.vm.*;
 
 import java.util.List;
 
@@ -11,7 +13,13 @@ public interface AskarService {
 
     List<PatientBillMessageVO> buildMessageVo();
 
-    public PatientBillMessageVO convertAdmissionVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId);
+    PatientBillMessageVO convertPatientBillMessageVO(Integer sepasId);
+
+    BillPatientCompositionVO convertBillPatientCompositionVO(Integer sepasId);
+
+    MessageIdentifierVO convertMessageIdentifierVO(Integer sepasId);
+
+    AdmissionVO convertAdmissionVo(Integer sepasId);
 
     public PatientBillMessageVO convertBasicDeathDetailsVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId);
 
@@ -19,25 +27,34 @@ public interface AskarService {
 
     public PatientBillMessageVO convertCauseVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId);
 
-    public PatientBillMessageVO convertDiagnosisVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId);
+    BasicDeathDetailsVO convertBasicDeathDetailsVo(Integer sepasId);
 
-    public PatientBillMessageVO convertDischargeVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId);
+    BillSummaryVO convertBillSummaryVo(Integer sepasId);
 
-    public PatientBillMessageVO convertHealthcareProviderVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId);
+    ArrayOfQuantitiesVO convertArrayOfQuantitiesVO(BillSummaryVo billSummaryVo);
 
-    public PatientBillMessageVO convertHighLevelAreaVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId);
+    CauseVO convertCauseVo(Integer sepasId);
 
-    public PatientBillMessageVO convertHospitalWardVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId);
+    ArrayOfDiagnosisVO convertDiagnosisVo(Integer sepasId);
 
-    public PatientBillMessageVO convertInsuranceVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId);
+    public DischargeVO convertDischargeVo(Integer sepasId);
 
-    public PatientBillMessageVO convertOrganizationVo(Integer sepasId);
+    public PatientBillMessageVO convertHealthcareProviderVo(Integer sepasId);
 
-    public PatientBillMessageVO convertPersonInfoVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId);
+    public HospitalWardVO convertHospitalWardVo(Integer sepasId);
+
+    HighLevelAreaVO convertHighLevelAreaVo(Integer sepasId);
+
+    ArrayOfInsuranceVO convertInsuranceVo(Integer sepasId);
+
+    public OrganizationVO convertOrganizationVo(Integer sepasId);
+
+    PersonInfoVO convertPersonInfoVo(Integer sepasId);
 
     public PatientBillMessageVO convertServiceDetailesVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId);
 
+    ArrayOfServiceDetailsVO1 convertServiceDetailesVo(Integer sepasId);
+
     public PatientBillMessageVO convertServiceGroupRowVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId);
 
-    public PatientBillMessageVO convert(PatientBillMessageVO patientBillMessageVO, Integer sepasId);
 }

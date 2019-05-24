@@ -8,7 +8,6 @@ public class HospitalWardVo implements Serializable {
     private String room;
     private String typeCode;
     private Integer sepasId;
-    private Integer hospitalWardVOFK;
 
     public String getBed() {
         return bed;
@@ -48,13 +47,5 @@ public class HospitalWardVo implements Serializable {
 
     public void setSepasId(Integer sepasId) {
         this.sepasId = sepasId;
-    }
-
-    public Integer getHospitalWardVOFK() {
-        return hospitalWardVOFK;
-    }
-
-    public void setHospitalWardVOFK(Integer hospitalWardVOFK) {
-        this.hospitalWardVOFK = hospitalWardVOFK;
     }
 }
