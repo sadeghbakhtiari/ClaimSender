@@ -21,11 +21,6 @@ public interface AskarService {
 
     AdmissionVO convertAdmissionVo(Integer sepasId);
 
-    public PatientBillMessageVO convertBasicDeathDetailsVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId);
-
-    public PatientBillMessageVO convertBillSummaryVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId);
-
-    public PatientBillMessageVO convertCauseVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId);
 
     BasicDeathDetailsVO convertBasicDeathDetailsVo(Integer sepasId);
 
@@ -39,7 +34,7 @@ public interface AskarService {
 
     public DischargeVO convertDischargeVo(Integer sepasId);
 
-    public PatientBillMessageVO convertHealthcareProviderVo(Integer sepasId);
+    ArrayOfServiceGroupRowVO convertServiceGroupRowVo(Integer sepasId);
 
     public HospitalWardVO convertHospitalWardVo(Integer sepasId);
 
@@ -51,10 +46,7 @@ public interface AskarService {
 
     PersonInfoVO convertPersonInfoVo(Integer sepasId);
 
-    public PatientBillMessageVO convertServiceDetailesVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId);
-
     ArrayOfServiceDetailsVO1 convertServiceDetailesVo(Integer sepasId);
 
-    public PatientBillMessageVO convertServiceGroupRowVo(PatientBillMessageVO patientBillMessageVO, Integer sepasId);
 
 }

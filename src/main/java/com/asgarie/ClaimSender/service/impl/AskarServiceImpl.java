@@ -171,7 +171,7 @@ public class AskarServiceImpl implements AskarService {
 
     @Override
     public ArrayOfQuantitiesVO convertArrayOfQuantitiesVO(BillSummaryVo billSummaryVo) {
-        ArrayOfQuantitiesVO arrayOfQuantitiesVO = new ArrayOfQuantitiesVO();
+        List<Qau>
         QuantitiesVO quantitiesVO = new QuantitiesVO();
         quantitiesVO.setName(getDocodedtext(TERMINOLOGY, "tarrif", "13"));
         quantitiesVO.setValue(getDoquantity(billSummaryVo.gettCost(), UNIT));
@@ -227,7 +227,7 @@ public class AskarServiceImpl implements AskarService {
         OrganizationVO organizationVO = new OrganizationVO();
         OrganizationVo org = organizationDao.getById(1);
         organizationVO.setName(org.getName());
-        organizationVO.setID(org.get);
+        organizationVO.setID(getDoidentifier());
         return organizationVO;
     }
 
@@ -248,11 +248,57 @@ public class AskarServiceImpl implements AskarService {
 
     @Override
     public ArrayOfServiceDetailsVO1 convertServiceDetailesVo(Integer sepasId) {
+        List<ServiceDetailesVo> list = serviceDetailesVoDao.getList(sepasId);
+        List<ServiceDetailsVO> serviceDetailsVOLis = new ArrayList<>();
+        List<ServiceDetailsVO> serviceDetailsVOList = new ArrayList<>();
+        for (ServiceDetailesVo vo : list) {
+            ServiceDetailsVO p = new ServiceDetailsVO();
+            p.setBasicInsuranceContribution(getDoquantity(vo.getBasicInsuranceContribution(), UNIT));
+            p.setTotalCharge(getDoquantity(vo.getTotalCharge(), UNIT));
+            p.setServiceType(getDocodedtext(TERMINOLOGY, vo.getServiceTitle(), vo.getServiceType().toString()));
+            p.setServiceCount(getDoquantity(Double.valueOf(vo.getServiceCount()), UNIT));
+            p.setPatientContribution(getDoquantity(vo.getPatientContribution(), UNIT));
+            p.setOtherCosts(convertArrayOfQuantitiesVO(vo));
+            p.setBed(vo.getBed());
+            p.setWardType(getDocodedtext(TERMINOLOGY,vo.getWardName(),vo.getWardType()));
+            p.setWardName(vo.getWardName());
+            p.setStartTime(getTime(vo.getStartHour(),vo.getStartMinute(),vo.getStartSecond()));
+            p.setStartDate(getDate(vo.getStartYear(),vo.getStartMonth(),vo.getStartDay()));
+            p.setServiceProvider();
+            p.setServiceCount(getDoquantity(Double.valueOf(vo.getServiceCount()),UNIT));
+            p.setRoom(vo.getRoom());
+            p.setRelativeCost();
+            p.setPKID(vo.getPkid());
+            p.setExtraLocation();
+            p.setEndTime(getTime(vo.getEndHour(),vo.getEndMinute(),vo.getEndSecond()));
+            p.setEndDate(getDate(vo.getEndYear(),vo.getEndMonth(),vo.getEndDay()));
+            serviceDetailsVOList.add(p);
+        }
+        return (ArrayOfServiceDetailsVO1) serviceDetailsVOList;
+    }
+
+    private ArrayOfQuantitiesVO convertArrayOfQuantitiesVO(ServiceDetailesVo vo) {
         return null;
     }
 
     @Override
     public ArrayOfServiceGroupRowVO convertServiceGroupRowVo(Integer sepasId) {
+        List<ServiceGroupRowVo> list = serviceGroupRowVoDao.getList(sepasId);
+        List<ServiceGroupRowVO> serviceGroupRowVOList = new ArrayList<>();
+        for (ServiceGroupRowVo vo : list) {
+            ServiceGroupRowVO p = new ServiceGroupRowVO();
+            p.setBasicInsuranceContribution(getDoquantity(vo.getBasicInsuranceContribution(), UNIT));
+            p.setTotalCharge(getDoquantity(vo.getTotalCharge(), UNIT));
+            p.setServiceType(getDocodedtext(TERMINOLOGY, vo.getServiceTitle(), vo.getServiceType().toString()));
+            p.setServiceCount(getDoquantity(Double.valueOf(vo.getServiceCount()), UNIT));
+            p.setPatientContribution(getDoquantity(vo.getPatientContribution(), UNIT));
+            p.setOtherCosts(convertArrayOfQuantitiesVO(vo));
+            serviceGroupRowVOList.add(p);
+        }
+        return (ArrayOfServiceGroupRowVO) serviceGroupRowVOList;//todo
+    }
+
+    private ArrayOfQuantitiesVO convertArrayOfQuantitiesVO(ServiceGroupRowVo vo) {
         return null;
     }
 
