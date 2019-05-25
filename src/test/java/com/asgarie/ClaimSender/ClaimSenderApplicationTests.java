@@ -1,5 +1,6 @@
 package com.asgarie.ClaimSender;
 
+import com.asgarie.ClaimSender.entity.ask.ServiceDetailesVo;
 import com.asgarie.ClaimSender.service.api.AskarService;
 //import model.ws.ir.gov.behdasht.sepas.PatientBillMessageVO;
 //import model.ws.ir.gov.behdasht.thrita.vm.*;
@@ -9,6 +10,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Locale;
+import java.util.ResourceBundle;
 //import service.api.AvaBillPatientService;
 
 @RunWith(SpringRunner.class)
@@ -46,8 +50,14 @@ public class ClaimSenderApplicationTests {
 //		messageVO.setComposition(compositionVO);
 //		ResultVO resultVO = avaBillPatientService.savePatientBillMessageVo(messageVO);
 //		System.out.println(resultVO.getCompositionUID());
-		System.out.println("salaaaaaaaaam");
+//		System.out.println("salaaaaaaaaam");
+//		askarService.showHelloMessage();
+		ResourceBundle resourceBundle = ResourceBundle.getBundle("messages", new Locale("fa"));
+		System.out.println(resourceBundle.getString("msg.text"));
+
 		askarService.showHelloMessage();
+
+//		askarService.convertArrayOfQuantitiesVO(null);
 
 	}
 
