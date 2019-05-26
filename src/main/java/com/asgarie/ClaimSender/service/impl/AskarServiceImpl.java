@@ -53,10 +53,11 @@ public class AskarServiceImpl implements AskarService {
     @Autowired
     private ServiceGroupRowVoDao serviceGroupRowVoDao;
 
-//    @Autowired
+    //    @Autowired
 //    private ResourceBundle resourceBundle;
-	@Autowired
-	private AvaBillPatientService avaBillPatientService;
+    @Autowired
+    private AvaBillPatientService avaBillPatientService;
+
     @Override
     public void showHelloMessage() {
         buildMessageVo();
@@ -64,8 +65,8 @@ public class AskarServiceImpl implements AskarService {
         List<PatientTransfer> patientTransferList = patientTransferDao.getAllPatientTransferList();
         patientTransferList.forEach(pt -> System.out.println(pt));
         PatientBillMessageVO patientBillMessageVO = convertPatientBillMessageVO(28);
-        		ResultVO resultVO = avaBillPatientService.savePatientBillMessageVo(patientBillMessageVO);
-
+        ResultVO resultVO = avaBillPatientService.savePatientBillMessageVo(patientBillMessageVO);
+        System.out.println(resultVO);
     }
 
     @Override
@@ -180,20 +181,20 @@ public class AskarServiceImpl implements AskarService {
 
     @Override
     public ArrayOfQuantitiesVO convertArrayOfQuantitiesVO(BillSummaryVo billSummaryVo) {
-        List<QuantitiesVO> quantitiesVOList = new ArrayList<>();
+        ArrayOfQuantitiesVO quantitiesVOList = new ArrayOfQuantitiesVO();
         QuantitiesVO quantitiesVO = new QuantitiesVO();
         quantitiesVO = convertQuantitiesVO(billSummaryVo.gettCost(), "13");
         if (quantitiesVO != null)
-            quantitiesVOList.add(quantitiesVO);
+            quantitiesVOList.getQuantitiesVO().add(quantitiesVO);
         quantitiesVO = convertQuantitiesVO(billSummaryVo.getdCost(), "12");
         if (quantitiesVO != null)
-            quantitiesVOList.add(quantitiesVO);
+            quantitiesVOList.getQuantitiesVO().add(quantitiesVO);
         quantitiesVO = convertQuantitiesVO(billSummaryVo.getTakhfif(), "10");
         if (quantitiesVO != null)
-            quantitiesVOList.add(quantitiesVO);
+            quantitiesVOList.getQuantitiesVO().add(quantitiesVO);
         quantitiesVO = convertQuantitiesVO(billSummaryVo.getTakmiliCost(), "1");
         if (quantitiesVO != null)
-            quantitiesVOList.add(quantitiesVO);
+            quantitiesVOList.getQuantitiesVO().add(quantitiesVO);
         return (ArrayOfQuantitiesVO) quantitiesVOList;
     }
 
@@ -231,8 +232,8 @@ public class AskarServiceImpl implements AskarService {
     @Override
     public ArrayOfDiagnosisVO convertDiagnosisVo(Integer sepasId) {
         List<DiagnosisVo> diagnosisVoList = diagnosisVoDao.getList(sepasId);
-        List<DiagnosisVO> diagnosisVOList = new ArrayList<>();
         DiagnosisVO diagnosisVO;
+        ArrayOfDiagnosisVO arrayOfDiagnosisVO = new ArrayOfDiagnosisVO();
         for (DiagnosisVo vo : diagnosisVoList) {
             diagnosisVO = new DiagnosisVO();
             diagnosisVO.setComment(vo.getComment());
@@ -241,10 +242,10 @@ public class AskarServiceImpl implements AskarService {
             diagnosisVO.setDiagnosisTime(getTime(vo.getDiagnosisHour(), vo.getDiagnosisMinute(), vo.getDiagnosisSecond()));
 //            diagnosisVO.setDiagnosisDate(getDate(vo.getDiagnosisYear(), vo.getDiagnosisMonth(), vo.getDiagnosisDay()));
             diagnosisVO.setDiagnosis(getDocodedtext("ICD10", "", vo.getDiagnosisCode()));
-            diagnosisVOList.add(diagnosisVO);
+//            diagnosisVOList[0]=(diagnosisVO);
+            arrayOfDiagnosisVO.getDiagnosisVO().add(diagnosisVO);
         }
-        ArrayOfDiagnosisVO arrayOfDiagnosisVO=new ArrayOfDiagnosisVO();
-        return (ArrayOfDiagnosisVO) diagnosisVOList;
+        return arrayOfDiagnosisVO;
     }
 
     private DOORDINAL convertDoordinal() {
@@ -282,7 +283,9 @@ public class AskarServiceImpl implements AskarService {
 //        insuranceVO.setInsuranceExpirationDate(getDate(insurance.getInsuranceExpirationYear(), insurance.getInsuranceExpirationMonth(), insurance.getInsuranceExpirationDay()));
 //        insuranceVO.setInsuranceContribution();
         insuranceVO.setInsuranceBox(getDocodedtext("thritaEHR.insuranceBox", resourceBundle.getString("msg.insurer.ihio"), insurance.getInsuranceBoxCode()));
-        return null;
+        ArrayOfInsuranceVO arrayOfInsuranceVO = new ArrayOfInsuranceVO();
+        arrayOfInsuranceVO.getInsuranceVO().add(insuranceVO);
+        return arrayOfInsuranceVO;
     }
 
     @Override
@@ -312,8 +315,7 @@ public class AskarServiceImpl implements AskarService {
     @Override
     public ArrayOfServiceDetailsVO1 convertServiceDetailesVo(Integer sepasId) {
         List<ServiceDetailesVo> list = serviceDetailesVoDao.getList(sepasId);
-        List<ServiceDetailsVO> serviceDetailsVOLis = new ArrayList<>();
-        List<ServiceDetailsVO> serviceDetailsVOList = new ArrayList<>();
+        ArrayOfServiceDetailsVO1 arrayOfServiceDetailsVO1 = new ArrayOfServiceDetailsVO1();
         for (ServiceDetailesVo vo : list) {
             ServiceDetailsVO p = new ServiceDetailsVO();
             p.setBasicInsuranceContribution(getDoquantity(vo.getBasicInsuranceContribution(), UNIT));
@@ -335,22 +337,22 @@ public class AskarServiceImpl implements AskarService {
 //            p.setExtraLocation();
             p.setEndTime(getTime(vo.getEndHour(), vo.getEndMinute(), vo.getEndSecond()));
             p.setEndDate(getDate(vo.getEndYear(), vo.getEndMonth(), vo.getEndDay()));
-            serviceDetailsVOList.add(p);
+            arrayOfServiceDetailsVO1.getServiceDetailsVO().add(p);
         }
-        return (ArrayOfServiceDetailsVO1) serviceDetailsVOList;
+        return arrayOfServiceDetailsVO1;
     }
 
     private ArrayOfRelativeCostVO convert(ServiceDetailesVo vo) {
-        List<RelativeCostVO> relativeCostVOList = new ArrayList<>();
+        ArrayOfRelativeCostVO relativeCostVOList = new ArrayOfRelativeCostVO();
         RelativeCostVO costVO;
 
         costVO = convertRelativeCost(vo.getZaribHerfei(), "2");
         if (costVO != null)
-            relativeCostVOList.add(costVO);
+            relativeCostVOList.getRelativeCostVO().add(costVO);
         costVO = convertRelativeCost(vo.getZaribFani(), "7");
         if (costVO != null)
-            relativeCostVOList.add(costVO);
-        return (ArrayOfRelativeCostVO) relativeCostVOList;
+            relativeCostVOList.getRelativeCostVO().add(costVO);
+        return relativeCostVOList;
     }
 
     private RelativeCostVO convertRelativeCost(Double kValue, String codedString) {
@@ -380,27 +382,27 @@ public class AskarServiceImpl implements AskarService {
     }
 
     private ArrayOfQuantitiesVO convertArrayOfQuantitiesVO(ServiceDetailesVo vo) {
-        List<QuantitiesVO> quantitiesVOList = new ArrayList<>();
+        ArrayOfQuantitiesVO quantitiesVOList = new ArrayOfQuantitiesVO();
         QuantitiesVO quantitiesVO = new QuantitiesVO();
         quantitiesVO = convertQuantitiesVO(vo.gettCost(), "13");
         if (quantitiesVO != null)
-            quantitiesVOList.add(quantitiesVO);
+            quantitiesVOList.getQuantitiesVO().add(quantitiesVO);
         quantitiesVO = convertQuantitiesVO(vo.getdCost(), "12");
         if (quantitiesVO != null)
-            quantitiesVOList.add(quantitiesVO);
+            quantitiesVOList.getQuantitiesVO().add(quantitiesVO);
 //        quantitiesVO = convertQuantitiesVO(vo.getTakhfif(), "10");
 //        if (quantitiesVO != null)
 //            quantitiesVOList.add(quantitiesVO);
         quantitiesVO = convertQuantitiesVO(vo.getTakmiliCost(), "1");
         if (quantitiesVO != null)
-            quantitiesVOList.add(quantitiesVO);
-        return (ArrayOfQuantitiesVO) quantitiesVOList;
+            quantitiesVOList.getQuantitiesVO().add(quantitiesVO);
+        return quantitiesVOList;
     }
 
     @Override
     public ArrayOfServiceGroupRowVO convertServiceGroupRowVo(Integer sepasId) {
         List<ServiceGroupRowVo> list = serviceGroupRowVoDao.getList(sepasId);
-        List<ServiceGroupRowVO> serviceGroupRowVOList = new ArrayList<>();
+        ArrayOfServiceGroupRowVO serviceGroupRowVOList = new ArrayOfServiceGroupRowVO();
         for (ServiceGroupRowVo vo : list) {
             ServiceGroupRowVO p = new ServiceGroupRowVO();
             p.setBasicInsuranceContribution(getDoquantity(vo.getBasicInsuranceContribution(), UNIT));
@@ -409,26 +411,26 @@ public class AskarServiceImpl implements AskarService {
             p.setServiceCount(getDoquantity(Double.valueOf(vo.getServiceCount()), UNIT));
             p.setPatientContribution(getDoquantity(vo.getPatientContribution(), UNIT));
             p.setOtherCosts(convertArrayOfQuantitiesVO(vo));
-            serviceGroupRowVOList.add(p);
+            serviceGroupRowVOList.getServiceGroupRowVO().add(p);
         }
         return (ArrayOfServiceGroupRowVO) serviceGroupRowVOList;//todo
     }
 
     private ArrayOfQuantitiesVO convertArrayOfQuantitiesVO(ServiceGroupRowVo vo) {
-        List<QuantitiesVO> quantitiesVOList = new ArrayList<>();
+        ArrayOfQuantitiesVO quantitiesVOList = new ArrayOfQuantitiesVO();
         QuantitiesVO quantitiesVO = new QuantitiesVO();
         quantitiesVO = convertQuantitiesVO(vo.gettCost(), "13");
         if (quantitiesVO != null)
-            quantitiesVOList.add(quantitiesVO);
+            quantitiesVOList.getQuantitiesVO().add(quantitiesVO);
         quantitiesVO = convertQuantitiesVO(vo.getdCost(), "12");
         if (quantitiesVO != null)
-            quantitiesVOList.add(quantitiesVO);
+            quantitiesVOList.getQuantitiesVO().add(quantitiesVO);
 //        quantitiesVO = convertQuantitiesVO(vo.getTakhfif(), "10");
 //        if (quantitiesVO != null)
 //            quantitiesVOList.add(quantitiesVO);
         quantitiesVO = convertQuantitiesVO(vo.getTakmiliCost(), "1");
         if (quantitiesVO != null)
-            quantitiesVOList.add(quantitiesVO);
+            quantitiesVOList.getQuantitiesVO().add(quantitiesVO);
         return (ArrayOfQuantitiesVO) quantitiesVOList;
     }
 
@@ -447,7 +449,9 @@ public class AskarServiceImpl implements AskarService {
         return hospitalWardVO;
     }
 
-    private DOTIME getTime(int hour, int minute, int second) {
+    private DOTIME getTime(Integer hour, Integer minute, Integer second) {
+        if (hour == null || minute == null || second == null)
+            return null;
         DOTIME dotime = new DOTIME();
         dotime.setHour(hour);
         dotime.setMinute(minute);
@@ -455,7 +459,9 @@ public class AskarServiceImpl implements AskarService {
         return dotime;
     }
 
-    private DODATE getDate(int year, int month, int day) {
+    private DODATE getDate(Integer year, Integer month, Integer day) {
+        if (year == null || month == null || day == null)
+            return null;
         DODATE dodate = new DODATE();
         dodate.setYear(year);
         dodate.setMonth(month);

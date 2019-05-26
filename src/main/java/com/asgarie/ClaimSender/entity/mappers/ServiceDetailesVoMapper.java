@@ -34,7 +34,7 @@ public class ServiceDetailesVoMapper implements RowMapper<ServiceDetailesVo> {
         serviceDetailesVo.setServiceCode(row.getString("ServiceCode"));
         serviceDetailesVo.setServiceTerminology(row.getString("ServiceTerminology"));
         serviceDetailesVo.setServiceCountMagnitude(CommonUtils.handleDoubleNull(row.getString("ServiceCountMagnitude")));
-        serviceDetailesVo.setServiceCode(row.getString("ServiceCount"));
+        serviceDetailesVo.setServiceCount(row.getString("ServiceCount"));
         serviceDetailesVo.setServiceType(CommonUtils.handleFloatNull(row.getString("ServiceType")));
         serviceDetailesVo.setServiceTitle(row.getString("ServiceTitle"));
         serviceDetailesVo.setWardName(row.getString("WardName"));
