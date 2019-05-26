@@ -5,6 +5,7 @@ import com.asgarie.ClaimSender.entity.ask.*;
 import com.asgarie.ClaimSender.service.api.AskarService;
 import model.ws.ir.gov.behdasht.sepas.PatientBillMessageVO;
 import model.ws.ir.gov.behdasht.thrita.vm.*;
+import org.apache.commons.math3.util.Precision;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.api.AvaBillPatientService;
@@ -160,11 +161,13 @@ public class AskarServiceImpl implements AskarService {
         basicDeathDetailsVO.setDeathTime(getTime(detailsVo.getDeathHour(), detailsVo.getDeathMinute(), detailsVo.getDeathSecond()));
         basicDeathDetailsVO.setDeathLocation(getDocodedtext("thritaEHR.deathLocation", "", detailsVo.getDeathLocationCode()));//todo update
         basicDeathDetailsVO.setDeathDate(getDate(detailsVo.getDeathYear(), detailsVo.getDeathMonth(), detailsVo.getDeathDay()));
-        return null;
+        return basicDeathDetailsVO;
     }
 
     @Override
     public BillSummaryVO convertBillSummaryVo(Integer sepasId) {
+        AdmissionVo admission = admissionDao.getById(sepasId);
+
         BillSummaryVo billSummary = billSummaryVoDao.getById(sepasId);
         BillSummaryVO billSummaryVO = new BillSummaryVO();
         billSummaryVO.setGlobalPackage(null);
@@ -173,10 +176,17 @@ public class AskarServiceImpl implements AskarService {
         billSummaryVO.setTotalCharge(getDoquantity(billSummary.getTotalCharge(), UNIT));
         billSummaryVO.setTotalBasicInsuranceContribution(getDoquantity(billSummary.getTotalBasicInsuranceContribution(), UNIT));
         billSummaryVO.setServiceGroupRow(convertServiceGroupRowVo(sepasId));
-        billSummaryVO.setMedicalRecordType(getDocodedtext("thritaEHR.medicalRecordType", "", billSummary.getMedicalRecordTypeCode()));//todo update
+        String admissionValue = "";
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("messages", new Locale("fa"));
+        if (admission.getAdmissionTypeCode().equals("2"))
+            admissionValue = resourceBundle.getString("msg.bastari");
+        else if ((admission.getAdmissionTypeCode().equals("4"))) {
+            admissionValue = resourceBundle.getString("msg.bastari.movaghat");
+        }
+        billSummaryVO.setMedicalRecordType(getDocodedtext("thritaEHR.medicalRecordType", admissionValue, admission.getAdmissionTypeCode()));//todo update
         billSummaryVO.setInsurerBox(null);
         billSummaryVO.setHospitalAccreditation(1);
-        return null;
+        return billSummaryVO;
     }
 
     @Override
@@ -276,8 +286,9 @@ public class AskarServiceImpl implements AskarService {
         InsuranceVO insuranceVO = new InsuranceVO();
         InsuranceVo insurance = new InsuranceVo();
         insuranceVO.setInsuranceBookletSerialNumber(insurance.getInsuranceBookletSerialNumber());
-        insuranceVO.setSHEBAD(getDoidentifier("IHIO", insurance.getShebad(), "IHIO", "HID"));
-        insuranceVO.setInsurer(getDocodedtext("thritaEHR.Insurer", "", insurance.getInsurerCode()));
+        if (insurance.getShebad() != null)
+            insuranceVO.setSHEBAD(getDoidentifier("IHIO", insurance.getShebad(), "IHIO", "HID"));
+        insuranceVO.setInsurer(getDocodedtext("thritaEHR.Insurer", resourceBundle.getString("msg.insurer.ihio"), "2"));
         insuranceVO.setInsuredNumber(insurance.getInsuredNumber());
 //        insuranceVO.setInsuranceOtherCosts();
 //        insuranceVO.setInsuranceExpirationDate(getDate(insurance.getInsuranceExpirationYear(), insurance.getInsuranceExpirationMonth(), insurance.getInsuranceExpirationDay()));
@@ -359,6 +370,7 @@ public class AskarServiceImpl implements AskarService {
         if (kValue == null || kValue == 0) {
             return null;
         }
+        kValue = Precision.round(kValue, 2);
         RelativeCostVO costVO = new RelativeCostVO();
         ResourceBundle resourceBundle = ResourceBundle.getBundle("messages", new Locale("fa"));
         String value = "";
