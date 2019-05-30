@@ -11,6 +11,8 @@ public interface AskarService {
 
     void showHelloMessage();
 
+    void callWebService(Integer sepasId);
+
     List<PatientBillMessageVO> buildMessageVo();
 
     PatientBillMessageVO convertPatientBillMessageVO(Integer sepasId);

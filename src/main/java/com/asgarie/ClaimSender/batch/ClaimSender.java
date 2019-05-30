@@ -27,20 +27,28 @@ public class ClaimSender {
     @Autowired
     private AvaBillPatientService avaBillPatientService;
 
-    private List<PatientTransfer> claimWaitingList = new ArrayList<>();
+    @Autowired
+    private PatientTransferDao patientTransferDao;
 
-    @Scheduled(fixedRate = 5000)
-    public synchronized void schedule() {
+    @Scheduled(fixedDelay = 2000)
+    public void schedule() {
 
-        List<PatientBillMessageVO> messageList = askarService.buildMessageVo();
-        List<ResultVO> resultVOList = new ArrayList<>();
-        messageList.forEach(m -> {
-            ResultVO resultVO = avaBillPatientService.savePatientBillMessageVo(m);
-            resultVOList.add(resultVO);
-        });
+//        List<PatientBillMessageVO> messageList = askarService.buildMessageVo();
+//        List<ResultVO> resultVOList = new ArrayList<>();
+//        messageList.forEach(m -> {
+//            ResultVO resultVO = avaBillPatientService.savePatientBillMessageVo(m);
+//            resultVOList.add(resultVO);
+////        });
+//
+//        System.out.println("----------------- Result ---------------");
+//        resultVOList.forEach(m -> System.out.println(m.toString()));
 
-        System.out.println("----------------- Result ---------------");
-        resultVOList.forEach(m -> System.out.println(m.toString()));
+        List<PatientTransfer> patientTransferList = patientTransferDao.getAllPatientTransferList();
+        for (PatientTransfer patientTransfer : patientTransferList) {
+            askarService.callWebService(patientTransfer.getSepasId());
+        }
+
+
     }
 
 }

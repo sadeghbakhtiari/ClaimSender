@@ -2,18 +2,20 @@ package com.asgarie.ClaimSender.service.impl;
 
 import com.asgarie.ClaimSender.dao.api.*;
 import com.asgarie.ClaimSender.entity.ask.*;
+import com.asgarie.ClaimSender.entity.ask.ehr.*;
 import com.asgarie.ClaimSender.service.api.AskarService;
+import com.asgarie.ClaimSender.service.common.CommonUtils;
 import model.ws.ir.gov.behdasht.sepas.PatientBillMessageVO;
 import model.ws.ir.gov.behdasht.thrita.vm.*;
 import org.apache.commons.math3.util.Precision;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import service.api.AvaBillPatientService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 @Service
 public class AskarServiceImpl implements AskarService {
@@ -58,16 +60,33 @@ public class AskarServiceImpl implements AskarService {
 //    private ResourceBundle resourceBundle;
     @Autowired
     private AvaBillPatientService avaBillPatientService;
+    @Autowired
+    private EhrDao ehrDao;
 
     @Override
     public void showHelloMessage() {
         buildMessageVo();
-        System.out.println("--------------------------");
-        List<PatientTransfer> patientTransferList = patientTransferDao.getAllPatientTransferList();
-        patientTransferList.forEach(pt -> System.out.println(pt));
-        PatientBillMessageVO patientBillMessageVO = convertPatientBillMessageVO(28);
+//        System.out.println("--------------------------");
+//        List<PatientTransfer> patientTransferList = patientTransferDao.getAllPatientTransferList();
+//        patientTransferList.forEach(pt ->);
+        Integer sepasId = 80;
+        PatientBillMessageVO patientBillMessageVO = convertPatientBillMessageVO(sepasId);
         ResultVO resultVO = avaBillPatientService.savePatientBillMessageVo(patientBillMessageVO);
+        patientTransferDao.updatePatientTransfer(sepasId, resultVO);
         System.out.println(resultVO);
+    }
+
+
+    @Override
+    @Transactional(rollbackFor = Throwable.class)
+    public void callWebService(Integer sepasId) {
+        try {
+            PatientBillMessageVO patientBillMessageVO = convertPatientBillMessageVO(sepasId);
+            ResultVO resultVO = avaBillPatientService.savePatientBillMessageVo(patientBillMessageVO);
+            patientTransferDao.updatePatientTransfer(sepasId, resultVO);
+        }catch (Exception e){
+//            patientTransferDao.
+        }
     }
 
     @Override
@@ -110,8 +129,7 @@ public class AskarServiceImpl implements AskarService {
         MessageIdentifierVO messageIdentifierVO = new MessageIdentifierVO();
 //        messageIdentifierVO.setCommitter();
 //        messageIdentifierVO.setVersionLifecycleState();
-//        messageIdentifierVO.setSystemID();
-//        messageIdentifierVO.setPatientUID();
+        messageIdentifierVO.setSystemID(getDoidentifier("MOHME_IT", "98745133542", "MOHME_IT", "System_ID"));
 //        messageIdentifierVO.setISQueriable();
 //        messageIdentifierVO.setHealthCareFacilityID();
 //        messageIdentifierVO.setCompositionUID();
@@ -121,7 +139,6 @@ public class AskarServiceImpl implements AskarService {
 
     @Override
     public AdmissionVO convertAdmissionVo(Integer sepasId) {
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("messages", new Locale("fa"));
         AdmissionVO admissionVO = new AdmissionVO();
         AdmissionVo admission = admissionDao.getById(sepasId);
         admissionVO.setMedicalRecordNumber(admission.getMedicalRecordNumber());
@@ -142,13 +159,8 @@ public class AskarServiceImpl implements AskarService {
         admissionVO.setAttendingDoctor(null);
         admissionVO.setAdmittingDoctor(null);
         admissionVO.setAdmissionWard(convertHospitalWardVo(sepasId));
-        String admissionValue = "";
-        if (admission.getAdmissionTypeCode().equals("2"))
-            admissionValue = resourceBundle.getString("msg.bastari");
-        else if ((admission.getAdmissionTypeCode().equals("4"))) {
-            admissionValue = resourceBundle.getString("msg.bastari.movaghat");
-        }
-        admissionVO.setAdmissionType(getDocodedtext("thritaEHR.admissionType", admissionValue, admission.getAdmissionTypeCode()));
+        EhrAadmisionType ehrAadmisionType = (EhrAadmisionType) ehrDao.getByEhrCode(EhrAadmisionType.class, admission.getAdmissionTypeCode());
+        admissionVO.setAdmissionType(getDocodedtext("thritaEHR.admissionType", ehrAadmisionType.getValue(), ehrAadmisionType.getCode()));
         return admissionVO;
     }
 
@@ -157,9 +169,11 @@ public class AskarServiceImpl implements AskarService {
         BasicDeathDetailsVo detailsVo = basicDeathDetailsVoDao.getById(sepasId);
         BasicDeathDetailsVO basicDeathDetailsVO = new BasicDeathDetailsVO();
 //        basicDeathDetailsVO.setCause();//todo update
-//        basicDeathDetailsVO.setHospitalWard();//todo update
+        EhrWardType wardType = (EhrWardType) ehrDao.getByEhrCode(EhrWardType.class, detailsVo.getHospitalWardVo() == null ? null : detailsVo.getHospitalWardVo().toString());
+        basicDeathDetailsVO.setHospitalWard(getDocodedtext("thritaEHR.wardType", wardType.getValue(), wardType.getCode()));
         basicDeathDetailsVO.setDeathTime(getTime(detailsVo.getDeathHour(), detailsVo.getDeathMinute(), detailsVo.getDeathSecond()));
-        basicDeathDetailsVO.setDeathLocation(getDocodedtext("thritaEHR.deathLocation", "", detailsVo.getDeathLocationCode()));//todo update
+        EhrDeathLocation ehrDeathLocation = (EhrDeathLocation) ehrDao.getByEhrCode(EhrDeathLocation.class, detailsVo.getDeathLocationCode());
+        basicDeathDetailsVO.setDeathLocation(getDocodedtext("thritaEHR.deathLocation", ehrDeathLocation.getValue(), ehrDeathLocation.getCode()));
         basicDeathDetailsVO.setDeathDate(getDate(detailsVo.getDeathYear(), detailsVo.getDeathMonth(), detailsVo.getDeathDay()));
         return basicDeathDetailsVO;
     }
@@ -176,14 +190,8 @@ public class AskarServiceImpl implements AskarService {
         billSummaryVO.setTotalCharge(getDoquantity(billSummary.getTotalCharge(), UNIT));
         billSummaryVO.setTotalBasicInsuranceContribution(getDoquantity(billSummary.getTotalBasicInsuranceContribution(), UNIT));
         billSummaryVO.setServiceGroupRow(convertServiceGroupRowVo(sepasId));
-        String admissionValue = "";
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("messages", new Locale("fa"));
-        if (admission.getAdmissionTypeCode().equals("2"))
-            admissionValue = resourceBundle.getString("msg.bastari");
-        else if ((admission.getAdmissionTypeCode().equals("4"))) {
-            admissionValue = resourceBundle.getString("msg.bastari.movaghat");
-        }
-        billSummaryVO.setMedicalRecordType(getDocodedtext("thritaEHR.medicalRecordType", admissionValue, admission.getAdmissionTypeCode()));//todo update
+        EhrMedicalRecordType medicalRecordType = (EhrMedicalRecordType) ehrDao.getByEhrCode(EhrMedicalRecordType.class, billSummary.getMedicalRecordTypeCode());
+        billSummaryVO.setMedicalRecordType(getDocodedtext("thritaEHR.medicalRecordType", medicalRecordType.getValue(), medicalRecordType.getCode()));
         billSummaryVO.setInsurerBox(null);
         billSummaryVO.setHospitalAccreditation(1);
         return billSummaryVO;
@@ -205,31 +213,17 @@ public class AskarServiceImpl implements AskarService {
         quantitiesVO = convertQuantitiesVO(billSummaryVo.getTakmiliCost(), "1");
         if (quantitiesVO != null)
             quantitiesVOList.getQuantitiesVO().add(quantitiesVO);
-        return (ArrayOfQuantitiesVO) quantitiesVOList;
+        return quantitiesVOList;
     }
 
     private QuantitiesVO convertQuantitiesVO(Double magnitude, String codeString) {
         if (magnitude == null || magnitude == 0) {
             return null;
         }
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("messages", new Locale("fa"));
-        String value = "";
-        switch (codeString) {
-            case "13":
-                value = resourceBundle.getString("msg.tahod.bime.paye");
-                break;
-            case "10":
-                value = resourceBundle.getString("msg.takhfif");
-                break;
-            case "12":
-                value = resourceBundle.getString("msg.kharej.az.tahod");
-                break;
-            case "1":
-                value = resourceBundle.getString("msg.takmili");
-                break;
-        }
+
         QuantitiesVO quantitiesVO = new QuantitiesVO();
-        quantitiesVO.setName(getDocodedtext("thritaEHR.otherCost", value, codeString));
+        EhrOtherCost otherCost = (EhrOtherCost) ehrDao.getByEhrCode(EhrOtherCost.class, codeString);
+        quantitiesVO.setName(getDocodedtext("thritaEHR.otherCost", otherCost.getValue(), otherCost.getCode()));
         quantitiesVO.setValue(getDoquantity(magnitude, RIAL));
         return quantitiesVO;
     }
@@ -247,12 +241,12 @@ public class AskarServiceImpl implements AskarService {
         for (DiagnosisVo vo : diagnosisVoList) {
             diagnosisVO = new DiagnosisVO();
             diagnosisVO.setComment(vo.getComment());
-            diagnosisVO.setStatus(getDocodedtext("thritaEHR.daignosis.status", "", vo.getStatusCode()));
+            EhrDiagnosisStatus diagnosisStatus = (EhrDiagnosisStatus) ehrDao.getByEhrCode(EhrDiagnosisStatus.class, vo.getStatusCode());
+            diagnosisVO.setStatus(getDocodedtext("thritaEHR.daignosis.status", diagnosisStatus.getValue(), diagnosisStatus.getCode()));
             diagnosisVO.setSeverity(convertDoordinal());
             diagnosisVO.setDiagnosisTime(getTime(vo.getDiagnosisHour(), vo.getDiagnosisMinute(), vo.getDiagnosisSecond()));
-//            diagnosisVO.setDiagnosisDate(getDate(vo.getDiagnosisYear(), vo.getDiagnosisMonth(), vo.getDiagnosisDay()));
-            diagnosisVO.setDiagnosis(getDocodedtext("ICD10", "", vo.getDiagnosisCode()));
-//            diagnosisVOList[0]=(diagnosisVO);
+            diagnosisVO.setDiagnosisDate(getDate(vo.getDiagnosisYear(), vo.getDiagnosisMonth(), vo.getDiagnosisDay()));
+            diagnosisVO.setDiagnosis(getDocodedtext("ICD10", "", vo.getDiagnosisCode()));//todo update
             arrayOfDiagnosisVO.getDiagnosisVO().add(diagnosisVO);
         }
         return arrayOfDiagnosisVO;
@@ -269,7 +263,8 @@ public class AskarServiceImpl implements AskarService {
     public DischargeVO convertDischargeVo(Integer sepasId) {
         DischargeVo discharge = dischargeVoDao.getById(sepasId);
         DischargeVO dischargeVO = new DischargeVO();
-        dischargeVO.setConditionOnDischarge(getDocodedtext("thritaEHR.conditionOnDischarge", "", discharge.getConditionOnDischargeCode()));//todo
+        EhrConditionOnDischarge conditionOnDischarge = (EhrConditionOnDischarge) ehrDao.getByEhrCode(EhrConditionOnDischarge.class, discharge.getConditionOnDischargeCode());
+        dischargeVO.setConditionOnDischarge(getDocodedtext("thritaEHR.conditionOnDischarge", conditionOnDischarge.getValue(), conditionOnDischarge.getCode()));
         dischargeVO.setDischargeDate(getDate(discharge.getDischargeYear(), discharge.getDischargeMonth(), discharge.getDischargeDay()));
         dischargeVO.setDischargeTime(getTime(discharge.getDischargeHour(), discharge.getDischargeMinute(), discharge.getDischargeSecond()));
         return dischargeVO;
@@ -282,18 +277,19 @@ public class AskarServiceImpl implements AskarService {
 
     @Override
     public ArrayOfInsuranceVO convertInsuranceVo(Integer sepasId) {
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("messages", new Locale("fa"));
         InsuranceVO insuranceVO = new InsuranceVO();
-        InsuranceVo insurance = new InsuranceVo();
+        InsuranceVo insurance = insuranceVoDao.getById(sepasId);
         insuranceVO.setInsuranceBookletSerialNumber(insurance.getInsuranceBookletSerialNumber());
-        if (insurance.getShebad() != null)
-            insuranceVO.setSHEBAD(getDoidentifier("IHIO", insurance.getShebad(), "IHIO", "HID"));
-        insuranceVO.setInsurer(getDocodedtext("thritaEHR.Insurer", resourceBundle.getString("msg.insurer.ihio"), "2"));
+        insuranceVO.setSHEBAD(getDoidentifier("IHIO", insurance.getShebad(), "IHIO", "HID"));
+        EhrInsurer insurer = (EhrInsurer) ehrDao.getByEhrCode(EhrInsurer.class, insurance.getInsurerCode());
+
+        insuranceVO.setInsurer(getDocodedtext("thritaEHR.Insurer", insurer.getValue(), insurer.getCode()));
         insuranceVO.setInsuredNumber(insurance.getInsuredNumber());
 //        insuranceVO.setInsuranceOtherCosts();
 //        insuranceVO.setInsuranceExpirationDate(getDate(insurance.getInsuranceExpirationYear(), insurance.getInsuranceExpirationMonth(), insurance.getInsuranceExpirationDay()));
 //        insuranceVO.setInsuranceContribution();
-        insuranceVO.setInsuranceBox(getDocodedtext("thritaEHR.insuranceBox", resourceBundle.getString("msg.insurer.ihio"), insurance.getInsuranceBoxCode()));
+        EhrInsuranceBox insuranceBox = (EhrInsuranceBox) ehrDao.getByEhrCode(EhrInsuranceBox.class, insurance.getInsuranceBoxCode());
+        insuranceVO.setInsuranceBox(getDocodedtext("thritaEHR.insuranceBox", insuranceBox.getValue(), insuranceBox.getCode()));
         ArrayOfInsuranceVO arrayOfInsuranceVO = new ArrayOfInsuranceVO();
         arrayOfInsuranceVO.getInsuranceVO().add(insuranceVO);
         return arrayOfInsuranceVO;
@@ -312,14 +308,32 @@ public class AskarServiceImpl implements AskarService {
     public PersonInfoVO convertPersonInfoVo(Integer sepasId) {
         PersonInfoVo person = personDao.getById(sepasId);
         PersonInfoVO personInfoVO = new PersonInfoVO();
-        DODATE bDate = new DODATE();
-        bDate.setDay(person.getBirthDay());
-        bDate.setMonth(person.getBirthMonth());
-        bDate.setYear(person.getBirthYear());
-        personInfoVO.setBirthDate(bDate);
+        personInfoVO.setBirthDate(getDate(person.getBirthYear(), person.getBirthMonth(), person.getBirthDay()));
         personInfoVO.setFirstName(person.getFirstName());
         personInfoVO.setLastName(person.getLastName());
         personInfoVO.setNationalCode(person.getNationalCode());
+        EhrGender gender=(EhrGender)ehrDao.getByEhrCode(EhrGender.class,person.getGenderCode());
+        personInfoVO.setGender(getDocodedtext("thritaEHR.gender",gender.getValue(),gender.getCode()));
+        personInfoVO.setFatherFirstName(person.getFatherFirstName());
+        personInfoVO.setBirthTime(getTime(person.getBirthHour(),person.getBirthMinute(),person.getBirthSecond()));
+        personInfoVO.setBirthdateAccuracy(null);
+        personInfoVO.setEducationLevel(null);
+        personInfoVO.setBirthPlaceArea(null);
+        personInfoVO.setFatherLastName(person.getFatherLastName());
+        personInfoVO.setFullAddress(person.getFullAddress());
+        personInfoVO.setFullName(person.getFullName());
+        personInfoVO.setHomeTel(person.getHomeTel());
+        personInfoVO.setIDCardNumber(person.getIdCardNumber());
+        personInfoVO.setIDIssueArea(null);
+        personInfoVO.setJob(null);
+        personInfoVO.setJobDescribtion(person.getJobDescription());
+        personInfoVO.setLivingPlaceArea(null);
+        personInfoVO.setReligion(getDocodedtext("","",""));
+        personInfoVO.setPostalCode(person.getPostalCode());
+        personInfoVO.setNationality(getDocodedtext("ISO_3166-1","","IR"));
+        personInfoVO.setMotherLastName(person.getMotherLastName());
+        personInfoVO.setMotherFirstName(person.getMotherFirstName());
+        personInfoVO.setMobileNumber(person.getMobileNumber());
         return personInfoVO;
     }
 
@@ -331,23 +345,25 @@ public class AskarServiceImpl implements AskarService {
             ServiceDetailsVO p = new ServiceDetailsVO();
             p.setBasicInsuranceContribution(getDoquantity(vo.getBasicInsuranceContribution(), UNIT));
             p.setTotalCharge(getDoquantity(vo.getTotalCharge(), UNIT));
-            p.setServiceType(getDocodedtext("thritaEHR.serviceType", vo.getServiceTitle(), vo.getServiceType().toString()));
-            p.setServiceCount(getDoquantity(Double.valueOf(vo.getServiceCount()), UNIT));
+            EhrServiceType serviceType = (EhrServiceType) ehrDao.getByEhrCode(EhrServiceType.class, CommonUtils.handleFloat(vo.getServiceType()));
+            p.setServiceType(getDocodedtext("thritaEHR.serviceType", serviceType.getValue(), CommonUtils.handleString(serviceType.getCode())));            p.setServiceCount(getDoquantity(Double.valueOf(vo.getServiceCount()), UNIT));
             p.setPatientContribution(getDoquantity(vo.getPatientContribution(), UNIT));
             p.setOtherCosts(convertArrayOfQuantitiesVO(vo));
             p.setBed(vo.getBed());
-            p.setWardType(getDocodedtext("thritaEHR.wardType", vo.getWardName(), vo.getWardType()));
+            EhrWardType wardType = (EhrWardType) ehrDao.getByEhrCode(EhrWardType.class, vo.getWardType());
+            p.setWardType(getDocodedtext("thritaEHR.wardType", wardType.getValue(), wardType.getCode()));
             p.setWardName(vo.getWardName());
             p.setStartTime(getTime(vo.getStartHour(), vo.getStartMinute(), vo.getStartSecond()));
             p.setStartDate(getDate(vo.getStartYear(), vo.getStartMonth(), vo.getStartDay()));
-//            p.setServiceProvider();
+//            p.setServiceProvider();//todo update
             p.setServiceCount(getDoquantity(Double.valueOf(vo.getServiceCount()), UNIT));
             p.setRoom(vo.getRoom());
             p.setRelativeCost(convert(vo));
             p.setPKID(vo.getPkid());
-//            p.setExtraLocation();
+//            p.setExtraLocation();//todo update
             p.setEndTime(getTime(vo.getEndHour(), vo.getEndMinute(), vo.getEndSecond()));
             p.setEndDate(getDate(vo.getEndYear(), vo.getEndMonth(), vo.getEndDay()));
+            p.setService(getDocodedtext(vo.getTerminology(),vo.getServiceTitle(),vo.getServiceCode()));
             arrayOfServiceDetailsVO1.getServiceDetailsVO().add(p);
         }
         return arrayOfServiceDetailsVO1;
@@ -372,23 +388,8 @@ public class AskarServiceImpl implements AskarService {
         }
         kValue = Precision.round(kValue, 2);
         RelativeCostVO costVO = new RelativeCostVO();
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("messages", new Locale("fa"));
-        String value = "";
-        switch (codedString) {
-            case "1":
-                value = resourceBundle.getString("msg.bihoushi");
-                break;
-            case "2":
-                value = resourceBundle.getString("msg.dakheli");
-                break;
-            case "4":
-                value = resourceBundle.getString("msg.jarahi");
-                break;
-            case "7":
-                value = resourceBundle.getString("msg.omoumi");
-                break;
-        }
-        costVO.setKType(getDocodedtext("thritaEHR.kType", "value", codedString));
+        EhrKType kType = (EhrKType) ehrDao.getByEhrCode(EhrKType.class, codedString);
+        costVO.setKType(getDocodedtext("thritaEHR.kType", kType.getValue(), kType.getCode()));
         costVO.setKValue(kValue);
         return costVO;
     }
@@ -419,13 +420,14 @@ public class AskarServiceImpl implements AskarService {
             ServiceGroupRowVO p = new ServiceGroupRowVO();
             p.setBasicInsuranceContribution(getDoquantity(vo.getBasicInsuranceContribution(), UNIT));
             p.setTotalCharge(getDoquantity(vo.getTotalCharge(), UNIT));
-            p.setServiceType(getDocodedtext("hritaEHR.serviceType", vo.getServiceTitle(), vo.getServiceType().toString()));
+            EhrServiceType serviceType = (EhrServiceType) ehrDao.getByEhrCode(EhrServiceType.class, CommonUtils.handleFloat(vo.getServiceType()));
+            p.setServiceType(getDocodedtext("thritaEHR.serviceType", serviceType.getValue(), CommonUtils.handleString(serviceType.getCode())));
             p.setServiceCount(getDoquantity(Double.valueOf(vo.getServiceCount()), UNIT));
             p.setPatientContribution(getDoquantity(vo.getPatientContribution(), UNIT));
             p.setOtherCosts(convertArrayOfQuantitiesVO(vo));
             serviceGroupRowVOList.getServiceGroupRowVO().add(p);
         }
-        return (ArrayOfServiceGroupRowVO) serviceGroupRowVOList;//todo
+        return serviceGroupRowVOList;
     }
 
     private ArrayOfQuantitiesVO convertArrayOfQuantitiesVO(ServiceGroupRowVo vo) {
@@ -453,11 +455,8 @@ public class AskarServiceImpl implements AskarService {
         hospitalWardVO.setBed(ward.getBed());
         hospitalWardVO.setName(ward.getName());
         hospitalWardVO.setRoom(ward.getRoom());
-        DOCODEDTEXT type = new DOCODEDTEXT();
-        type.setCodedString(ward.getTypeCode());
-        type.setTerminologyId("takht");
-        type.setValue(ward.getName());
-        hospitalWardVO.setType(type);
+        EhrWardType wardType = (EhrWardType) ehrDao.getByEhrCode(EhrWardType.class, ward.getTypeCode());
+        hospitalWardVO.setType(getDocodedtext("thritaEHR.wardType", wardType.getValue(), wardType.getCode()));
         return hospitalWardVO;
     }
 
@@ -482,6 +481,9 @@ public class AskarServiceImpl implements AskarService {
     }
 
     private DOCODEDTEXT getDocodedtext(String terminologyId, String value, String codedString) {
+        if (codedString == null || terminologyId == null || value == null) {
+            return null;
+        }
         DOCODEDTEXT docodedtext = new DOCODEDTEXT();
         docodedtext.setTerminologyId(terminologyId);
         docodedtext.setValue(value);
@@ -490,6 +492,9 @@ public class AskarServiceImpl implements AskarService {
     }
 
     private DOQUANTITY getDoquantity(Double magnitude, String unit) {
+        if (magnitude == null || unit == null) {
+            return null;
+        }
         DOQUANTITY doquantity = new DOQUANTITY();
         doquantity.setMagnitude(magnitude);
         doquantity.setUnit(unit);
@@ -497,6 +502,8 @@ public class AskarServiceImpl implements AskarService {
     }
 
     private DOIDENTIFIER getDoidentifier(String assigner, String id, String issuer, String type) {
+        if (id == null)
+            return null;
         DOIDENTIFIER doidentifier = new DOIDENTIFIER();
         doidentifier.setAssigner(assigner);
         doidentifier.setID(id);

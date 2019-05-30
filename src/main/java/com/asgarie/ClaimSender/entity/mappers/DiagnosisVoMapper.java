@@ -15,7 +15,7 @@ public class DiagnosisVoMapper implements RowMapper<DiagnosisVo> {
         diagnosisVo.setId(CommonUtils.handleNull(row.getString("ID")));
         diagnosisVo.setComment(row.getString("Comment"));
         diagnosisVo.setDiagnosisCode(row.getString("DiagnosisCode"));
-        diagnosisVo.setDiagnosisMonth(CommonUtils.handleNull(row.getString("DiagnosisYear")));
+        diagnosisVo.setDiagnosisYear(CommonUtils.handleNull(row.getString("DiagnosisYear")));
         diagnosisVo.setDiagnosisMonth(CommonUtils.handleNull(row.getString("DiagnosisMonth")));
         diagnosisVo.setDiagnosisDay(CommonUtils.handleNull(row.getString("DiagnosisDay")));
         diagnosisVo.setDiagnosisHour(CommonUtils.handleNull(row.getString("DiagnosisHour")));
